@@ -1,0 +1,65 @@
+# macOS
+.DS_Store
+.Trashes
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*.swp
+*.swo
+
+# IDEs (e.g., VS Code, IntelliJ, Eclipse)
+.vscode/
+.idea/
+.project
+.classpath
+.settings/
+*.iml
+*.iws
+*.ipr
+
+# Compiled files
+*.pyc
+__pycache__/
+*.o
+*.lo
+*.la
+*.so
+*.dll
+*.exe
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Java
+target/
+build/
+*.jar
+*.war
+*.ear
+
+# Python virtual environments
+venv/
+.venv/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+*.tmp
+*.bak
+*.swp
+
+# Local configuration (e.g., database credentials)
+*.env
+.env.local
+config.local.php
