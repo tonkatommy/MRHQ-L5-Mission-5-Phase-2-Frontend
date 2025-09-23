@@ -1,10 +1,10 @@
 import styles from "./App.module.css";
-import Header from "./sharedComponents/Header/Header";
+import Home from "./pages/Home/Home";
 
 function App() {
   return (
     <>
-      <Header></Header>
+      <Home></Home>
     </>
   );
 }
