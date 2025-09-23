@@ -1,9 +1,10 @@
 import styles from "./App.module.css";
+import Header from "./sharedComponents/Header/Header";
 
 function App() {
   return (
     <>
-      <div>Mission 5 Frontend</div>
+      <Header></Header>
     </>
   );
 }

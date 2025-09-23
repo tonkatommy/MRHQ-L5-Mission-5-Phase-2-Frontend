@@ -1,0 +1,215 @@
+.navbar {
+  display: flex;
+
+  height: 78px;
+
+  padding: 0 100px;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  flex-shrink: 0;
+
+  align-self: stretch;
+
+  border-bottom: 1px solid rgba(53, 53, 53, 0.1);
+
+  background: #fff;
+}
+
+.left {
+  display: flex;
+
+  align-items: center;
+
+  gap: 40px;
+}
+
+.left img {
+  width: 57px;
+
+  height: 56px;
+
+  aspect-ratio: 57/56;
+}
+
+.left button {
+  display: flex;
+
+  width: 134px;
+
+  height: 47px;
+
+  padding: 16px;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 8px;
+
+  border-radius: 4px;
+
+  background: #f26522;
+
+  color: #ffffff;
+
+  font-family: "Test Calibre", sans-serif;
+
+  font-size: 20px;
+
+  font-style: normal;
+
+  font-weight: 700;
+
+  line-height: 12px; /* 60% */
+
+  outline: none;
+
+  border: none;
+}
+
+.left button:focus {
+  outline: 2px solid #000000;
+
+  outline-offset: 2px;
+
+  border-radius: 4px;
+}
+
+.left button:hover {
+  cursor: pointer;
+}
+
+.left p {
+  color: #353535;
+
+  font-family: "Test Calibre", sans-serif;
+
+  font-size: 20px;
+
+  font-style: normal;
+
+  font-weight: 700;
+
+  line-height: normal;
+}
+
+.left p:hover {
+  cursor: pointer;
+
+  color: #f26522;
+}
+
+.right {
+  display: flex;
+
+  align-items: center;
+
+  gap: 40px;
+}
+
+.right p {
+  color: #353535;
+
+  font-family: "Test Calibre", sans-serif;
+
+  font-size: 20px;
+
+  font-style: normal;
+
+  font-weight: 500;
+
+  line-height: normal;
+}
+
+.right p:hover {
+  cursor: pointer;
+
+  color: #f26522;
+}
+
+.right button {
+  display: flex;
+
+  padding: 7px 7px 7px 20px;
+
+  align-items: center;
+
+  gap: 16px;
+
+  border-radius: 128px;
+
+  background: #f26522;
+
+  color: #f8f8f8;
+
+  font-family: "Test Calibre", sans-serif;
+
+  font-size: 20px;
+
+  font-style: normal;
+
+  font-weight: 700;
+
+  line-height: normal;
+
+  outline: none;
+
+  border: none;
+}
+
+.right button:focus {
+  outline: 2px solid #000000;
+
+  outline-offset: 2px;
+
+  border-radius: 128px;
+}
+
+.headings {
+  display: flex;
+
+  height: 76px;
+
+  padding: 0 100px;
+
+  align-items: center;
+
+  gap: 40px;
+
+  flex-shrink: 0;
+
+  align-self: stretch;
+
+  border-bottom: 1px solid rgba(53, 53, 53, 0.3);
+
+  background: #fff;
+}
+
+.headings p {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: #353535;
+
+  font-family: "Test Calibre", sans-serif;
+
+  font-size: 20px;
+
+  font-style: normal;
+
+  font-weight: 700;
+
+  line-height: normal;
+}
+
+.headings p:hover {
+  cursor: pointer;
+
+  color: #f26522;
+}
