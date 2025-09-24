@@ -3,19 +3,15 @@ import styles from "./ProductServiceCard.module.css";
 
 // Import other components
 
-const ProductServiceCard = () => {
+const ProductServiceCard = ({ imageSrc, title, arrowSrc }) => {
   return (
     <div className={styles.card}>
-      <div className={styles.leftSide}>
-        <h1 className={styles.title}>What you need, made easy</h1>
-        <p className={styles.description}>
-          Moving furniture? Hangry for a pie and barista made coffee? Have a dirty car that needs
-          some love? Come on in - we've got you covered.
-        </p>
-        <button className={styles.button}>Products and services</button>
+      <div className={styles.cardContent}>
+        <img src={imageSrc} className={styles.cardImage} alt="Product/Service Image" />
+        <h3 className={styles.cardTitle}>{title}</h3>
       </div>
-      <div className={styles.rightSide}>
-        <div className={styles.serviceCards}></div>
+      <div className={styles.cardArrowContainer}>
+        <img src={arrowSrc} className={styles.cardArrow} alt="White arrow in blue circle" />
       </div>
     </div>
   );
