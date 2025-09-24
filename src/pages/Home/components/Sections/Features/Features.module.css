@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  height: 611px;
+  padding: 80px 100px;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+  flex-shrink: 0;
+  align-self: stretch;
+
+  background: #fff;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+  align-self: stretch;
+}
+
+.title {
+  color: #f26522;
+  text-align: center;
+
+  font-family: "Test Calibre Bold";
+  font-size: 56px;
+}
+
+.featureCards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+  align-self: stretch;
+}

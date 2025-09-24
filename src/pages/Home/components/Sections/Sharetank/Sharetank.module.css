@@ -36,8 +36,6 @@
   align-self: stretch;
 
   color: var(--Z-neutral-black, #353535);
-
-  /* Z-body-medium */
   font-family: "Test Calibre";
   font-size: 20px;
   font-weight: 500;

@@ -1,20 +1,3 @@
-/* Import fonts from public folder */
-@font-face {
-  font-family: "Test Calibre";
-  src: url("/fonts/test-calibre-regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Test Calibre Bold";
-  src: url("/fonts/test-calibre-bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
 .card {
   display: flex;
   height: 98px;
