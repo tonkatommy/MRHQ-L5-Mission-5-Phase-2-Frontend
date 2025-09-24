@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  padding: 72px 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  background: #fff;
+}
+
+.content {
+  display: flex;
+  height: 506px;
+  padding: 40px;
+  justify-content: center;
+  align-items: center;
+  gap: 208px;
+  align-self: stretch;
+}
+
+.contentLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.title {
+  align-self: stretch;
+  color: var(--Z-primary-orange, #f26522);
+
+  /* Z-h2-bold */
+  font-family: "Test Calibre Bold";
+  font-size: 56px;
+}
+
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  align-self: stretch;
+}
+
+.description {
+  align-self: stretch;
+  color: #000;
+  font-family: "Test Calibre";
+  font-size: 20px;
+}
+
+.button {
+  display: flex;
+  height: 52px;
+  padding: 8px 24px;
+  align-items: center;
+  gap: 16px;
+
+  color: var(--Z-neutral-white, #fff);
+  /* Z-NavLabels */
+  font-family: "Test Calibre Bold";
+  font-size: 20px;
+  border: none;
+  border-radius: 40px;
+  background: var(--Z-primary-orange, #f26522);
+}
+
+.contentRight {
+  display: flex;
+  width: 430px !important;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}

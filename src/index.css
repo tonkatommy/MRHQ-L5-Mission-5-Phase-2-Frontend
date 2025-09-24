@@ -1,5 +1,23 @@
 * {
   box-sizing: border-box;
-
   margin: 0;
+}
+
+/* Import fonts from public folder */
+@font-face {
+  font-family: "Test Calibre";
+  src: url("/fonts/TestCalibre-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  line-height: normal;
+}
+
+@font-face {
+  font-family: "Test Calibre Bold";
+  src: url("/fonts/TestCalibre-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  line-height: normal;
 }

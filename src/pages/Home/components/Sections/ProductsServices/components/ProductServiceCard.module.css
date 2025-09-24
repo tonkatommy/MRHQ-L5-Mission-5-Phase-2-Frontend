@@ -1,0 +1,57 @@
+/* Import fonts from public folder */
+@font-face {
+  font-family: "Test Calibre";
+  src: url("/fonts/test-calibre-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Test Calibre Bold";
+  src: url("/fonts/test-calibre-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+.card {
+  display: flex;
+  height: 98px;
+  width: 430px;
+  padding: 24px;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+
+  border-radius: 8px;
+  background: var(--Z-neutral-white, #fff);
+  box-shadow: 2px 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.cardContent {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cardImage {
+  width: 56px;
+  height: 56px;
+}
+
+.cardTitle {
+  color: var(--Z-secondary-indigo, #1e196a);
+  font-family: "Test Calibre Bold";
+  font-size: 32px;
+  line-height: normal;
+}
+
+.cardArrowContainer {
+  display: flex;
+  height: 56px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+}
