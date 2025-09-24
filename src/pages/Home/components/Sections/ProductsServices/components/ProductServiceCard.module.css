@@ -1,6 +1,24 @@
+/* Import fonts from public folder */
+@font-face {
+  font-family: "Test Calibre";
+  src: url("/fonts/test-calibre-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Test Calibre Bold";
+  src: url("/fonts/test-calibre-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 .card {
   display: flex;
   height: 98px;
+  width: 430px;
   padding: 24px;
   justify-content: center;
   align-items: center;
@@ -24,10 +42,8 @@
 
 .cardTitle {
   color: var(--Z-secondary-indigo, #1e196a);
-  font-family: "Test Calibre";
+  font-family: "Test Calibre Bold";
   font-size: 32px;
-  font-style: normal;
-  font-weight: 700;
   line-height: normal;
 }
 

@@ -1,5 +1,7 @@
 import Header from "../../sharedComponents/Header/Header";
 import Hero from "./components/Hero";
+import ProductsServices from "./components/Sections/ProductsServices/ProductsServices";
+import Sharetank from "./components/Sections/Sharetank/Sharetank";
 import Footer from "../../sharedComponents/Footer/Footer";
 
 function Home() {
@@ -7,6 +9,7 @@ function Home() {
     <>
       <Header></Header>
       <Hero></Hero>
+      <ProductsServices></ProductsServices>
       <Footer></Footer>
     </>
   );
