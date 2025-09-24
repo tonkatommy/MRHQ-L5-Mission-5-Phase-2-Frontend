@@ -1,0 +1,56 @@
+.container {
+  display: flex;
+  padding-left: 100px;
+  justify-content: space-between;
+  align-items: center;
+  /* gap: 88px; */
+  align-self: stretch;
+
+  background: var(
+    --Z-gradient-sunrise-orange,
+    linear-gradient(
+      90deg,
+      #ed560e 32.3%,
+      rgba(246, 124, 36, 0.66) 66.15%,
+      rgba(255, 203, 8, 0.89) 100%
+    )
+  );
+}
+
+.content {
+  display: flex;
+  width: 381px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.title {
+  align-self: stretch;
+
+  color: var(--Z-neutral-white, #fff);
+  font-family: "Test Calibre Bold";
+  font-size: 56px;
+}
+
+.image {
+  width: 868px;
+  height: 479px;
+  aspect-ratio: 868/479;
+  /* background: url("/images/mapOverlay.png"); */
+}
+
+.button {
+  display: flex;
+  height: 52px;
+  padding: 8px 24px;
+  align-items: center;
+  gap: 16px;
+
+  color: var(--Z-neutral-white, #fff);
+  background: var(--Z-secondary-indigo, #1e196a);
+  border: none;
+  border-radius: 40px;
+  font-family: "Test Calibre Bold";
+  font-size: 20px;
+}
