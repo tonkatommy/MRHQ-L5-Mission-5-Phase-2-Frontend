@@ -3,6 +3,7 @@ import Hero from "./components/Hero";
 import ProductsServices from "./components/Sections/ProductsServices/ProductsServices";
 import Sharetank from "./components/Sections/Sharetank/Sharetank";
 import Features from "./components/Sections/Features/Features";
+import Locate from "./components/Sections/Locate/Locate";
 import Footer from "../../sharedComponents/Footer/Footer";
 
 function Home() {
@@ -13,6 +14,7 @@ function Home() {
       <ProductsServices></ProductsServices>
       <Sharetank></Sharetank>
       <Features></Features>
+      <Locate></Locate>
       <Footer></Footer>
     </>
   );
