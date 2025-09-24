@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  padding: 72px 0;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+
+  background: #f8f8f8;
+}
+
+.content {
+  display: flex;
+  padding: 64px 100px;
+  align-items: center;
+  gap: 72px;
+  align-self: stretch;
+}
+
+.contentLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  flex: 1 0 0;
+}
+
+.header {
+  display: flex;
+  height: 85px;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
+.header p {
+  align-self: stretch;
+
+  color: var(--Z-neutral-black, #353535);
+  font-family: "Test Calibre";
+  font-size: 20px;
+}
+
+.header h2 {
+  flex: 1 0 0;
+  align-self: stretch;
+
+  color: var(--Z-primary-orange, #f26522);
+  font-family: "Test Calibre Bold";
+  font-size: 56px;
+}
+
+.description {
+  align-self: stretch;
+  color: #000;
+  font-family: "Test Calibre";
+  font-size: 20px;
+}
+
+.button {
+  display: flex;
+  height: 52px;
+  padding: 8px 24px;
+  align-items: center;
+  gap: 16px;
+
+  color: var(--Z-neutral-white, #fff);
+
+  font-family: "Test Calibre Bold";
+  font-size: 20px;
+
+  border: none;
+  border-radius: 40px;
+  background: var(--Z-primary-orange, #f26522);
+}

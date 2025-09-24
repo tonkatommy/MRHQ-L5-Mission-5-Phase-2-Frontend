@@ -10,6 +10,7 @@ function Home() {
       <Header></Header>
       <Hero></Hero>
       <ProductsServices></ProductsServices>
+      <Sharetank></Sharetank>
       <Footer></Footer>
     </>
   );
