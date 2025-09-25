@@ -1,13 +1,20 @@
+import { useNavigate } from "react-router-dom";
 import styles from "./Hero.module.css";
 
 function Hero() {
+  const navigate = useNavigate();
+
+  const handleFindStation = () => {
+    navigate("/tailor-search");
+  };
+
   return (
     <>
       <div className={styles.heroContainer}>
         <div className={styles.heroMessage}>
           <h1>Z is for New Zealand</h1>
           <h3>Powering better journeys, today and tomorrow</h3>
-          <button>
+          <button onClick={handleFindStation}>
             Find your closest Z
             <div className={styles.buttonCircle}>
               <svg

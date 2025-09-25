@@ -141,3 +141,17 @@
   cursor: pointer;
   color: #f26522;
 }
+
+/* Navigation link styles */
+.headings a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.headings a:hover p {
+  color: #f26522;
+}
+
+.headings a.active p {
+  color: #f26522;
+}

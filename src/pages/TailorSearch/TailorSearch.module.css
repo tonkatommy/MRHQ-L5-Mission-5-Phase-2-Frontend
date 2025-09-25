@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.container h1 {
+  font-family: "Test Calibre", Arial, sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #f26522;
+  margin-bottom: 1rem;
+}
+
+.container p {
+  font-family: "Test Calibre", Arial, sans-serif;
+  font-size: 1.2rem;
+  color: #333;
+}

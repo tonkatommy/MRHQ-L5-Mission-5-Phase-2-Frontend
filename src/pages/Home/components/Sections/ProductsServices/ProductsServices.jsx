@@ -1,10 +1,17 @@
-// Import CSS module for styling
+// Import CSS module for styling and React Router
+import { useNavigate } from "react-router-dom";
 import styles from "./ProductsServices.module.css";
 // Import other components
 import ProductServiceCard from "./components/ProductServiceCard";
 
 // Define the ProductsServices functional component
 const ProductsServices = () => {
+  const navigate = useNavigate();
+
+  const handleProductsServicesClick = () => {
+    navigate("/tailor-search");
+  };
+
   return (
     <div>
       <div className={styles.container}>
@@ -16,7 +23,7 @@ const ProductsServices = () => {
                 Moving furniture? Hangry for a pie and barista made coffee? Have a dirty car that
                 needs some love? Come on in - we've got you covered.
               </p>
-              <button className={styles.button}>
+              <button className={styles.button} onClick={handleProductsServicesClick}>
                 Products and services
                 <svg
                   width="35"
