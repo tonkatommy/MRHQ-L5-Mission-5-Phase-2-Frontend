@@ -21,3 +21,43 @@
   font-display: swap;
   line-height: normal;
 }
+@font-face {
+  font-family: "Test Calibre SemiBold";
+  src: url("/fonts/test-calibre-semibold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  line-height: normal;
+}
+@font-face {
+  font-family: "Test Calibre Medium";
+  src: url("/fonts/test-calibre-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  line-height: normal;
+}
+@font-face {
+  font-family: "Test Calibre Black";
+  src: url("/fonts/test-calibre-black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  line-height: normal;
+}
+@font-face {
+  font-family: "Test Calibre Light";
+  src: url("/fonts/test-calibre-light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  line-height: normal;
+}
+@font-face {
+  font-family: "Test Calibre Thin";
+  src: url("/fonts/test-calibre-thin.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+  line-height: normal;
+}
