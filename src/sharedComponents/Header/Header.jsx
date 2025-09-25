@@ -1,16 +1,19 @@
+import { Link, useLocation } from "react-router-dom";
 import styles from "./Header.module.css";
 import logo from "../../assets/z_energy_logo.png";
 import loginButton from "../../assets/login.svg";
 import downArrow from "../../assets/chevron-down.svg";
 
 function Header() {
+  const location = useLocation();
+
   return (
     <div>
       <nav className={styles.navbar}>
         <div className={styles.left}>
-          <a>
+          <Link to="/">
             <img src={logo} alt="Z Energy Logo"></img>
-          </a>
+          </Link>
 
           <button>For personal</button>
 
@@ -37,7 +40,9 @@ function Header() {
           Rewards and promotions <img src={downArrow}></img>
         </p>
 
-        <p>Locations</p>
+        <Link to="/find-station" className={location.pathname === '/find-station' ? styles.active : ''}>
+          <p>Locations</p>
+        </Link>
       </div>
     </div>
   );

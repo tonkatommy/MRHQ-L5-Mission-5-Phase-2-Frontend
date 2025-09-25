@@ -1,12 +1,19 @@
-// Import CSS modules
+// Import CSS modules and React Router
+import { useNavigate } from "react-router-dom";
 import styles from "./Locate.module.css";
 
 const Locate = () => {
+  const navigate = useNavigate();
+
+  const handleFindStation = () => {
+    navigate("/find-station");
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         <h2 className={styles.title}>There where you need us</h2>
-        <button className={styles.button}>
+        <button className={styles.button} onClick={handleFindStation}>
           Find your closest Z
           <svg
             width="36"
