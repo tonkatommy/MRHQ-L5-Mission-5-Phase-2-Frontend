@@ -69,38 +69,80 @@
   gap: 16px;
 }
 
-.fuelDiesel {
+.fuelBox {
+  min-width: 48px;
   display: flex;
   padding: 8px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 4px;
-
   border-radius: var(--Radius, 8px);
+}
+
+.logoAndFuelType {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: flex-start;
+}
+
+.price {
+  color: var(--Z-neutral-white, #fff);
+  font-family: "Test Calibre Bold", sans-serif;
+  font-size: 16px;
+}
+
+.currencySign {
+  color: var(--Z-neutral-white, #fff);
+  font-family: "Test Calibre Bold", sans-serif;
+  font-size: 10px;
+}
+
+.fuelTypeText {
+  align-self: stretch;
+
+  color: #f8f8f8;
+  text-align: center;
+  font-family: "Test Calibre Bold", sans-serif;
+  font-size: 14px;
+}
+
+.fuelDiesel {
   background: #36353a;
 }
 
 .fuelUnleaded {
-  display: flex;
-  padding: 8px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-
-  border-radius: var(--Radius, 8px);
   background: #31522f;
 }
 
 .fuelPremium {
-  display: flex;
-  padding: 8px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-
-  border-radius: var(--Radius, 8px);
   background: #b64138;
+}
+
+.servicesIcons {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.iconContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.iconLabel {
+  color: var(--Z-secondary-indigo, #1e196a);
+  font-family: "Test Calibre";
+  font-size: 16px;
+}
+
+.disabled {
+  display: none;
 }
