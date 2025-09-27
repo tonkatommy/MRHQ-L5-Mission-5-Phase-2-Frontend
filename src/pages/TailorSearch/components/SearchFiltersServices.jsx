@@ -34,12 +34,6 @@ function SearchFiltersServices() {
     "Trucks": ["AdBlue Diesel Exhaust Fluid", "Fast fill Diesel lane"],
   };
 
-  // const handleSelect = (option) => {
-  //   setSelected(option);
-  //   setIsOpen(false);
-  //   setExpanded(null);
-  // };
-
   const toggleExpand = (option) => {
     setExpanded(expanded === option ? null : option);
   };
@@ -88,7 +82,6 @@ function SearchFiltersServices() {
         className={`${styles.dropdownButton} ${isOpen ? styles.active : ""}`}
       >
         <div className={styles.selectedTags}>
-
           {/* Placeholder when nothing has been selected yet */}
           {selectedOptions.length === 0 && (
             <span className={styles.placeHolder}>
