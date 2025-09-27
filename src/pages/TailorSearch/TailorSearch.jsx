@@ -10,8 +10,12 @@ function TailorSearch() {
     <>
       <Header />
       <HeroSearch />
-      <SearchFilters />
-      <MapSearch />
+      <div className={styles.mapWrapper}>
+        <MapSearch />
+        <div className={styles.searchFiltersWrapper}>
+          <SearchFilters />
+        </div>
+      </div>
       <Footer />
     </>
   );
