@@ -89,7 +89,10 @@ function SearchFiltersServices() {
       >
         <div className={styles.selectedTags}>
           {selectedOptions.length === 0 && (
-            <span>Select services or ameneties</span>
+            <span className={styles.placeHolder}>
+              {" "}
+              Select services or ameneties
+            </span>
           )}
           {selectedOptions.map((opt) => (
             <span key={opt} className={styles.tag}>

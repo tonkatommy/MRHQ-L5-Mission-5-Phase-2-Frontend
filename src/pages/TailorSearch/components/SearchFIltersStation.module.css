@@ -15,10 +15,30 @@
   border: 1px solid #d5d4dc;
   background: #fff;
   box-shadow: 2px 4px 4px 0 rgba(0, 0, 0, 0.25);
+
+  color: #353535;
+
+  /* Z-Input fields PH */
+  font-family: "Test Calibre", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .stationContainer button:focus {
   border: 1px solid #f26522;
+}
+
+.stationContainer label {
+  color: #353535;
+
+  /* Z-Input fields labels */
+  font-family: "Test Calibre", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
 
 .stationFilters {
@@ -34,6 +54,15 @@
   list-style: none;
   padding: 0;
   z-index: 1000;
+
+  color: #353535;
+
+  /* Z-Input fields PH */
+  font-family: "Test Calibre", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .stationFiltersItems {
@@ -46,7 +75,7 @@
   color: #fff;
 
   /* Z-Input fields PH */
-  font-family: "Test Calibre";
+  font-family: "Test Calibre", sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
