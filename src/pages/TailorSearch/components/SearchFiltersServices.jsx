@@ -88,15 +88,21 @@ function SearchFiltersServices() {
         className={`${styles.dropdownButton} ${isOpen ? styles.active : ""}`}
       >
         <div className={styles.selectedTags}>
+
+          {/* Placeholder when nothing has been selected yet */}
           {selectedOptions.length === 0 && (
             <span className={styles.placeHolder}>
               {" "}
               Select services or ameneties
             </span>
           )}
+
+          {/* Displays options which have been selected on the button */}
           {selectedOptions.map((opt) => (
             <span key={opt} className={styles.tag}>
               {opt}
+
+              {/* Removes item from list when clicked */}
               <span
                 className={styles.removeTag}
                 onClick={(e) => {
@@ -109,6 +115,8 @@ function SearchFiltersServices() {
             </span>
           ))}
         </div>
+
+        {/* Clears all options */}
         <div className={styles.clearAllButton}>
           {selectedOptions.length > 0 && (
             <span className={styles.clearAll} onClick={clearAll}>
