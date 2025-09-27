@@ -21,6 +21,10 @@
   border: 1px solid #f26522;
 }
 
+.dropdownButton.active {
+  border: 1px solid #f26522;
+}
+
 .servicesFilters {
   position: absolute;
   top: 100%;
@@ -34,6 +38,87 @@
   list-style: none;
   padding: 0;
   z-index: 1000;
+}
+
+/* === BUTTON CONTENT === */
+.dropdownButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 350px;
+  height: 54px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #d5d4dc;
+  background: #fff;
+  box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  gap: 8px;
+}
+
+.selectedTags {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: flex-start;
+
+  max-height: 54px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+}
+
+.selectedTags::-webkit-scrollbar-track {
+  background: transparent;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.selectedTags::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+/* Tag Style */
+.tag {
+  background: #d5d4dc;
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  color: #000;
+
+  /* Z-Input fields PH */
+  font-family: "Test Calibre";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.removeTag {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* CLear all button */
+.clearAllButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+
+  color: #000;
+
+  /* Z-Input fields PH */
+  font-family: "Test Calibre";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: bolder;
+  line-height: normal;
 }
 
 /* === PARENT ITEMS === */
@@ -124,4 +209,10 @@
   background: #1e196a; /* dark background */
   color: #fff;
   cursor: pointer;
+}
+
+/* Selected state */
+.nestedItemsSelected {
+  background: #f26522 !important;
+  color: #fff !important;
 }

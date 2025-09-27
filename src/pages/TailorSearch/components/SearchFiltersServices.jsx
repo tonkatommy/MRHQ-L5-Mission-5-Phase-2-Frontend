@@ -4,7 +4,7 @@ import downArrow from "../../../assets/chevron-down.svg";
 
 function SearchFiltersServices() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("Select fuel type");
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [expanded, setExpanded] = useState(null); // Track which parent item is expanded
   const dropdownRef = useRef(null);
 
@@ -34,14 +34,32 @@ function SearchFiltersServices() {
     "Trucks": ["AdBlue Diesel Exhaust Fluid", "Fast fill Diesel lane"],
   };
 
-  const handleSelect = (option) => {
-    setSelected(option);
-    setIsOpen(false);
-    setExpanded(null);
-  };
+  // const handleSelect = (option) => {
+  //   setSelected(option);
+  //   setIsOpen(false);
+  //   setExpanded(null);
+  // };
 
   const toggleExpand = (option) => {
     setExpanded(expanded === option ? null : option);
+  };
+
+  const toggleSelect = (subOption) => {
+    setSelectedOptions(
+      (prev) =>
+        prev.includes(subOption)
+          ? prev.filter((opt) => opt !== subOption) //remove
+          : [...prev, subOption] //add
+    );
+  };
+
+  const removeOption = (subOption) => {
+    setSelectedOptions((prev) => prev.filter((opt) => opt !== subOption));
+  };
+
+  const clearAll = (e) => {
+    e.stopPropagation(); //prevent button toggle
+    setSelectedOptions([]);
   };
 
   // Close dropdown if click outside area
@@ -67,9 +85,35 @@ function SearchFiltersServices() {
         onClick={() => {
           setIsOpen(!isOpen);
         }}
+        className={`${styles.dropdownButton} ${isOpen ? styles.active : ""}`}
       >
-        {selected}
-        <img src={downArrow}></img>
+        <div className={styles.selectedTags}>
+          {selectedOptions.length === 0 && (
+            <span>Select services or ameneties</span>
+          )}
+          {selectedOptions.map((opt) => (
+            <span key={opt} className={styles.tag}>
+              {opt}
+              <span
+                className={styles.removeTag}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeOption(opt);
+                }}
+              >
+                ×
+              </span>
+            </span>
+          ))}
+        </div>
+        <div className={styles.clearAllButton}>
+          {selectedOptions.length > 0 && (
+            <span className={styles.clearAll} onClick={clearAll}>
+              ×
+            </span>
+          )}
+          <img src={downArrow} alt="toggle" />
+        </div>
       </button>
 
       {/* Parent options */}
@@ -108,8 +152,12 @@ function SearchFiltersServices() {
                   {subOptions.map((subOption, subIndex) => (
                     <li
                       key={subIndex}
-                      className={styles.nestedItems}
-                      onClick={() => handleSelect(subOption)}
+                      className={`${styles.nestedItems} ${
+                        selectedOptions.includes(subOption)
+                          ? styles.nestedItemsSelected
+                          : ""
+                      }`}
+                      onClick={() => toggleSelect(subOption)}
                     >
                       <span className={styles.optionLabel}>{subOption}</span>
                     </li>
