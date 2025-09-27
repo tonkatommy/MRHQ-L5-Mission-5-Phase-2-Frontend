@@ -1,6 +1,6 @@
-import SearchFiltersFuel from "./SearchFiltersFuel";
-import SearchFiltersServices from "./SearchFIltersServices";
-import SearchFiltersStation from "./SearchFiltersStation";
+import SearchFiltersFuel from "./filters/SearchFiltersFuel";
+import SearchFiltersServices from "./filters/SearchFiltersServices";
+import SearchFiltersStation from "./filters/SearchFiltersStation";
 import styles from "./SearchFilters.module.css";
 
 function SearchFilters() {

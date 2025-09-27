@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./SearchFiltersServices.module.css";
-import downArrow from "../../../assets/chevron-down.svg";
+import downArrow from "../../../../assets/chevron-down.svg";
 
 function SearchFiltersServices() {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,13 +1,13 @@
 import { useState, useRef, useEffect } from "react";
-import styles from "./SearchFiltersFuel.module.css";
-import downArrow from "../../../assets/chevron-down.svg";
+import styles from "./SearchFiltersStation.module.css";
+import downArrow from "../../../../assets/chevron-down.svg";
 
-function SearchFiltersFuel() {
+function SearchFiltersStation() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("Select fuel type");
+  const [selected, setSelected] = useState("Select station type");
   const dropdownRef = useRef(null);
 
-  const options = ["ZX Premium", "Z91 Unleaded", "Z Diesel"];
+  const options = ["Truck stop", "Service station"];
 
   const handleSelect = (option) => {
     setSelected(option);
@@ -29,8 +29,8 @@ function SearchFiltersFuel() {
   }, []);
 
   return (
-    <div className={styles.fuelContainer} ref={dropdownRef}>
-      <label>Fuel type</label>
+    <div className={styles.stationContainer} ref={dropdownRef}>
+      <label>Station type</label>
       <button
         onClick={() => {
           setIsOpen(!isOpen);
@@ -42,14 +42,14 @@ function SearchFiltersFuel() {
 
       {/* List options */}
       {isOpen && (
-        <ul className={styles.fuelFilters}>
+        <ul className={styles.stationFilters}>
           {options.map((option, index) => (
             <li
               key={index}
               onClick={() => {
                 handleSelect(option);
               }}
-              className={styles.fuelFiltersItems}
+              className={styles.stationFiltersItems}
             >
               {option}
             </li>
@@ -60,4 +60,4 @@ function SearchFiltersFuel() {
   );
 }
 
-export default SearchFiltersFuel;
+export default SearchFiltersStation;
