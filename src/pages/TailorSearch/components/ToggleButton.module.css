@@ -1,0 +1,53 @@
+.toggleButtonContainer {
+  display: flex;
+  width: 77px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.toggleButtonContainer label {
+  color: #353535;
+
+  /* Z-Input fields labels */
+  font-family: "Test Calibre";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+/* Default Button - Show Prices*/
+.buttonStyle {
+  display: flex;
+  width: 62px;
+  padding: 4px 8px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  border: none;
+  outline: none;
+
+  border-radius: 18px;
+  background: var(
+    --Z-gradient-sunrise-orange,
+    linear-gradient(
+      90deg,
+      #ed560e 32.3%,
+      rgba(246, 124, 36, 0.66) 66.15%,
+      rgba(255, 203, 8, 0.89) 100%
+    )
+  );
+  cursor: pointer;
+}
+
+/* Toggled Button - Hide Prices */
+.toggledButton {
+  display: flex;
+  justify-content: flex-end;
+  background: var(
+    --Z-gradient-duck-indigo,
+    linear-gradient(90deg, #1e196a 21.15%, #3129ac 96.79%)
+  );
+}
