@@ -1,3 +1,4 @@
+import SearchButton from "./filters/SearchButton";
 import SearchFiltersFuel from "./filters/SearchFiltersFuel";
 import SearchFiltersServices from "./filters/SearchFiltersServices";
 import SearchFiltersStation from "./filters/SearchFiltersStation";
@@ -9,6 +10,7 @@ function SearchFilters() {
       <SearchFiltersServices />
       <SearchFiltersFuel />
       <SearchFiltersStation />
+      <SearchButton />
     </div>
   );
 }
