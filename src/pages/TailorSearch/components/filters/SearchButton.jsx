@@ -1,7 +1,11 @@
 import styles from "./SearchButton.module.css";
 
-function SearchButton() {
-  return <button className={styles.filterButton}>Apply filters</button>;
+function SearchButton({ onClick }) {
+  return (
+    <button className={styles.filterButton} onClick={onClick}>
+      Apply filters
+    </button>
+  );
 }
 
 export default SearchButton;
