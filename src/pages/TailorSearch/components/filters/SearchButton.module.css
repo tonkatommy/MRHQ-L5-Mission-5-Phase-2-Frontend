@@ -1,0 +1,32 @@
+.filterButton {
+  display: flex;
+  width: 200px;
+  height: 58px;
+  padding: 16px 32px;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 8px;
+  outline: none;
+  border: none;
+
+  border-radius: 31.964px;
+  background: #1c165d;
+  box-shadow: 2px 4px 4px 0 rgba(0, 0, 0, 0.25);
+
+  color: #fff;
+
+  /* Z-NavLabels */
+  font-family: "Test Calibre";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.filterButton:hover {
+  cursor: pointer;
+  background: var(
+    --Z-gradient-duck-indigo,
+    linear-gradient(90deg, #1e196a 21.15%, #3129ac 96.79%)
+  );
+}
