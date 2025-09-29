@@ -20,7 +20,7 @@ function FindStation() {
           fuelPrices={{ diesel: "2.05", unleaded: "2.30", premium: "2.55" }}
           fuelTypes={{ diesel: "D", unleaded: "91", premium: "96" }}
           services={{ lpg: true, food: true, carWash: false, trailerHire: true, showMore: true }}
-          moreInfoItems={["Pre-order coffee"]}
+          moreInfoItems={["Pre-order coffee", "Air pump", "Restrooms", "ATM"]}
         />
       </main>
       <Footer />

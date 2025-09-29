@@ -1,5 +1,5 @@
 // import CSS module for styling
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import styles from "./StationCard.module.css";
 
 const StationCard = (props) => {
@@ -14,7 +14,6 @@ const StationCard = (props) => {
   } = props;
 
   const [showMoreInfo, setShowMoreInfo] = useState(false);
-  const contentRef = useRef(null);
 
   const toggleMoreInfo = () => {
     setShowMoreInfo(!showMoreInfo);
@@ -116,7 +115,7 @@ const StationCard = (props) => {
       {/* More Information */}
       {moreInfoItems.length > 0 && (
         <div className={`${styles.moreInfo} ${showMoreInfo ? styles.visible : ""}`}>
-          <div ref={contentRef} className={styles.moreInfoContent}>
+          <div className={styles.moreInfoContent}>
             {moreInfoItems.length <= 2 ? (
               // Single column for 1-2 items
               <div className={styles.moreInfoSingle}>
