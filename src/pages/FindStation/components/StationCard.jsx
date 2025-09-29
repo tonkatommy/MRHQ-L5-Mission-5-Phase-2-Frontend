@@ -5,6 +5,7 @@ const StationCard = (props) => {
   const { stationName, stationAddress, openHours, fuelPrices, fuelTypes, services } = props;
   return (
     <div className={styles.container}>
+      {/* Station Information */}
       <div className={styles.header}>
         <div className={styles.headerText}>
           <div className={styles.title}>
@@ -15,6 +16,7 @@ const StationCard = (props) => {
           </div>
           <div className={styles.openHours}>{openHours || "Open 24 Hours"}</div>
         </div>
+        {/* Fuel Indicators */}
         <div className={styles.fuelIndicators}>
           <div className={`${styles.fuelDiesel} ${styles.fuelBox}`}>
             <div className={styles.logoAndFuelType}>
@@ -60,6 +62,7 @@ const StationCard = (props) => {
           </div>
         </div>
       </div>
+      {/* Services Icons */}
       <div className={styles.servicesIcons}>
         <div className={`${styles.iconContainer} ${services.lpg ? "" : styles.disabled}`}>
           <img src="/public/images/lpg.svg" alt="LPG Bottle" />
@@ -79,6 +82,24 @@ const StationCard = (props) => {
         </div>
         <div className={`${styles.iconContainer} ${services.showMore ? "" : styles.disabled}`}>
           <img src="/public/images/showMoreToggle.svg" alt="Show more options" />
+        </div>
+      </div>
+      {/* More Information */}
+      <div className={styles.moreInfo}>
+        <div className={styles.moreInfoLeft}>
+          <ul>
+            <li>Pre-order coffee</li>
+            <li>Pay in app</li>
+            <li>ATM</li>
+            <li>A-Z Screen</li>
+          </ul>
+        </div>
+        <div className={styles.moreInfoRight}>
+          <ul>
+            <li>Compostable Cups</li>
+            <li>Super long hoses</li>
+            <li>Bathrooms</li>
+          </ul>
         </div>
       </div>
     </div>
