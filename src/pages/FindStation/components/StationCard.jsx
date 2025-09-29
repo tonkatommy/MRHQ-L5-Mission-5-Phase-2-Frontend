@@ -1,10 +1,26 @@
 // import CSS module for styling
+import { useState, useRef, useEffect } from "react";
 import styles from "./StationCard.module.css";
 
 const StationCard = (props) => {
-  const { stationName, stationAddress, openHours, fuelPrices, fuelTypes, services } = props;
+  const {
+    stationName,
+    stationAddress,
+    openHours,
+    fuelPrices,
+    fuelTypes,
+    services,
+    moreInfoItems = [],
+  } = props;
+
+  const [showMoreInfo, setShowMoreInfo] = useState(false);
+  const contentRef = useRef(null);
+
+  const toggleMoreInfo = () => {
+    setShowMoreInfo(!showMoreInfo);
+  };
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${showMoreInfo ? styles.expanded : ""}`}>
       {/* Station Information */}
       <div className={styles.header}>
         <div className={styles.headerText}>
@@ -22,7 +38,7 @@ const StationCard = (props) => {
             <div className={styles.logoAndFuelType}>
               <img
                 className={styles.logoSmall}
-                src="/public/images/z-energy-logo-small.png"
+                src="/images/z-energy-logo-small.png"
                 alt="Z Energy Logo"
               />
               <div className={styles.fuelTypeText}>{fuelTypes.diesel || "D"}</div>
@@ -32,11 +48,15 @@ const StationCard = (props) => {
               <div className={styles.price}>{fuelPrices.diesel || "2.05"}</div>
             </div>
           </div>
-          <div className={`${styles.fuelUnleaded} ${styles.fuelBox}`}>
+          <div
+            className={`${styles.fuelUnleaded} ${styles.fuelBox} ${
+              !fuelTypes.unleaded ? styles.disabled : ""
+            }`}
+          >
             <div className={styles.logoAndFuelType}>
               <img
                 className={styles.logoSmall}
-                src="/public/images/z-energy-logo-small.png"
+                src="/images/z-energy-logo-small.png"
                 alt="Z Energy Logo"
               />
               <div className={styles.fuelTypeText}>{fuelTypes.unleaded || "91"}</div>
@@ -50,7 +70,7 @@ const StationCard = (props) => {
             <div className={styles.logoAndFuelType}>
               <img
                 className={styles.logoSmall}
-                src="/public/images/z-energy-logo-small.png"
+                src="/images/z-energy-logo-small.png"
                 alt="Z Energy Logo"
               />
               <div className={styles.fuelTypeText}>{fuelTypes.premium || "96"}</div>
@@ -65,43 +85,71 @@ const StationCard = (props) => {
       {/* Services Icons */}
       <div className={styles.servicesIcons}>
         <div className={`${styles.iconContainer} ${services.lpg ? "" : styles.disabled}`}>
-          <img src="/public/images/lpg.svg" alt="LPG Bottle" />
+          <img src="/images/lpg.svg" alt="LPG Bottle" />
           <div className={styles.iconLabel}>LPG swap & go</div>
         </div>
         <div className={`${styles.iconContainer} ${services.food ? "" : styles.disabled}`}>
-          <img src="/public/images/foodDrink.svg" alt="Cup with a straw" />
+          <img src="/images/foodDrink.svg" alt="Cup with a straw" />
           <div className={styles.iconLabel}>Drinks & food</div>
         </div>
         <div className={`${styles.iconContainer} ${services.carWash ? "" : styles.disabled}`}>
-          <img src="/public/images/carwash.svg" alt="Carwash icon" />
+          <img src="/images/carwash.svg" alt="Carwash icon" />
           <div className={styles.iconLabel}>Car wash</div>
         </div>
         <div className={`${styles.iconContainer} ${services.trailerHire ? "" : styles.disabled}`}>
-          <img src="/public/images/trailerHire.svg" alt="Trailer icon" />
+          <img src="/images/trailerHire.svg" alt="Trailer icon" />
           <div className={styles.iconLabel}>Trailer hire</div>
         </div>
-        <div className={`${styles.iconContainer} ${services.showMore ? "" : styles.disabled}`}>
-          <img src="/public/images/showMoreToggle.svg" alt="Show more options" />
+        <div
+          className={`${styles.iconContainer} ${styles.toggleContainer} ${
+            services.showMore ? "" : styles.disabled
+          }`}
+          onClick={toggleMoreInfo}
+        >
+          <img
+            src="/images/showMoreToggle.svg"
+            alt="Show more options"
+            className={`${styles.toggleIcon} ${showMoreInfo ? styles.rotated : ""}`}
+          />
         </div>
       </div>
       {/* More Information */}
-      <div className={styles.moreInfo}>
-        <div className={styles.moreInfoLeft}>
-          <ul>
-            <li>Pre-order coffee</li>
-            <li>Pay in app</li>
-            <li>ATM</li>
-            <li>A-Z Screen</li>
-          </ul>
+      {moreInfoItems.length > 0 && (
+        <div className={`${styles.moreInfo} ${showMoreInfo ? styles.visible : ""}`}>
+          <div ref={contentRef} className={styles.moreInfoContent}>
+            {moreInfoItems.length <= 2 ? (
+              // Single column for 1-2 items
+              <div className={styles.moreInfoSingle}>
+                <ul>
+                  {moreInfoItems.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              // Two columns for 3+ items
+              <>
+                <div className={styles.moreInfoLeft}>
+                  <ul>
+                    {moreInfoItems
+                      .slice(0, Math.ceil(moreInfoItems.length / 2))
+                      .map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                  </ul>
+                </div>
+                <div className={styles.moreInfoRight}>
+                  <ul>
+                    {moreInfoItems.slice(Math.ceil(moreInfoItems.length / 2)).map((item, index) => (
+                      <li key={index + Math.ceil(moreInfoItems.length / 2)}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </>
+            )}
+          </div>
         </div>
-        <div className={styles.moreInfoRight}>
-          <ul>
-            <li>Compostable Cups</li>
-            <li>Super long hoses</li>
-            <li>Bathrooms</li>
-          </ul>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

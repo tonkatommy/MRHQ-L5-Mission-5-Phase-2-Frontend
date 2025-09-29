@@ -11,6 +11,14 @@
   border-radius: 8px;
   background: var(--Z-neutral-white, #fff);
   box-shadow: 2px 4px 4px 0 rgba(0, 0, 0, 0.25);
+
+  transition: height 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.container.expanded {
+  height: auto;
+  min-height: 289px;
 }
 
 /****** Header ******/
@@ -147,9 +155,75 @@
   display: none;
 }
 
+.toggleContainer {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.toggleContainer:hover {
+  transform: scale(1.05);
+}
+
+.toggleIcon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.toggleIcon.rotated {
+  transform: rotate(90deg);
+}
+
 /* More Information */
 .moreInfo {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.moreInfo.visible {
+  max-height: 500px; /* Large enough for any content */
+  opacity: 1;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  transition: max-height 0.4s ease-in, opacity 0.3s ease-in, padding 0.3s ease-in;
+}
+
+.moreInfoContent {
   display: flex;
   align-items: flex-start;
   gap: 8px;
+}
+
+.moreInfoSingle {
+  width: 100%;
+}
+
+.moreInfoLeft ul,
+.moreInfoRight ul,
+.moreInfoSingle ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.moreInfoLeft li,
+.moreInfoRight li,
+.moreInfoSingle li {
+  color: var(--Z-neutral-black, #353535);
+  font-family: "Test Calibre", sans-serif;
+  font-size: 16px;
+  margin-bottom: 4px;
+  position: relative;
+  padding-left: 16px;
+}
+
+.moreInfoLeft li:before,
+.moreInfoRight li:before,
+.moreInfoSingle li:before {
+  content: "•";
+  color: var(--Z-secondary-indigo, #1e196a);
+  position: absolute;
+  left: 0;
 }
