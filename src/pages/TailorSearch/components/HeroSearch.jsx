@@ -2,9 +2,29 @@ import styles from "./HeroSearch.module.css";
 import searchArrow from "../../../assets/SearchButtonVector.svg";
 import currentLocationIcon from "../../../assets/current_location_icon.svg";
 
-function handleSearch(e) {
+async function handleSearch(e) {
   e.preventDefault();
-  console.log("Test");
+
+  const locationInput = document.getElementById("locationInput");
+  const searchLocation = locationInput.value;
+  console.log(searchLocation);
+
+  try {
+    const response = await fetch("http://localhost:3000/find-station", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        location: searchLocation,
+      }),
+    });
+
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
 function HeroSearch() {
@@ -14,7 +34,11 @@ function HeroSearch() {
       <div className={styles.searchArea}>
         <label>Location</label>
         <form className={styles.searchBar} onSubmit={handleSearch}>
-          <input placeholder="Please enter a Location / Station / Truck stop / Airstop" />
+          <input
+            placeholder="Please enter a Location / Station / Truck stop / Airstop"
+            name="locationInput"
+            id="locationInput"
+          />
           <button className={styles.searchButton}>
             <img src={searchArrow}></img>
           </button>
