@@ -1,4 +1,4 @@
-import { APIProvider } from "@vis.gl/react-google-maps";
+import { APIProvider, Map } from "@vis.gl/react-google-maps";
 
 function GoogleMap() {
   return (
@@ -6,7 +6,19 @@ function GoogleMap() {
       apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
       onLoad={() => console.log("Maps API has loaded")}
     >
-      <h1>Test</h1>
+      <Map
+        defaultZoom={6}
+        defaultCenter={{ lat: -42.48101284616512, lng: 172.16160268498984 }}
+        onCameraChanged={(ev) => {
+          console.log("Camera changed:", ev);
+          console.log("center:", ev.detail.center);
+          console.log("zoom", ev.detail.zoom);
+        }}
+        options={{
+          disableDefaultUI: true,
+          zoomControl: true,
+        }}
+      ></Map>
     </APIProvider>
   );
 }
