@@ -11,26 +11,26 @@ function SearchFiltersServices() {
   const options = {
     "EV Charging": [
       "EV Charging - Fast",
-      "EV Charging - Ultra Fast",
+      "EV Charging - Ultra-Fast",
       "EV Charging - Fast &/or Ultra-Fast",
       "EV Charging - Coming Soon",
     ],
     "Food & Coffee": [
-      "Pre-order coffee",
-      "Z-Espresso coffee & fresh food",
-      "Compostable cups",
-      "F'real",
+      "Pre-order Coffee",
+      "Z Espress Coffee & Fresh Food",
+      "Compostable Cups",
+      "f'real",
     ],
     "Services & Ameneties": [
       "Trailer hire",
-      "LPG SWAP n' GO",
+      "LPG SWAP'n'GO",
       "ATM",
-      "Bathroom",
-      "A-Z Screens",
+      "Bathrooms",
+      "A-Z Screen",
       "Super long hoses",
-      "Z20 Carwash",
+      "Z2O carwash",
     ],
-    "Payment": ["Pay by plate", "Pay in App", "24/7 Pay pump"],
+    "Payment": ["Pay by plate", "Pay in app", "24/7 Pay at pump"],
     "Trucks": ["AdBlue Diesel Exhaust Fluid", "Fast fill Diesel lane"],
   };
 
