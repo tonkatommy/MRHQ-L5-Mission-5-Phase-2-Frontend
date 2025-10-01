@@ -1,5 +1,8 @@
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
 
+// Import Google Maps Markers component
+import GoogleMapsMarkers from "./GoogleMapsMarkers.jsx";
+
 function GoogleMap() {
   return (
     <APIProvider
@@ -19,7 +22,9 @@ function GoogleMap() {
           disableDefaultUI: true,
           zoomControl: true,
         }}
-      ></Map>
+      >
+        <GoogleMapsMarkers />
+      </Map>
     </APIProvider>
   );
 }
