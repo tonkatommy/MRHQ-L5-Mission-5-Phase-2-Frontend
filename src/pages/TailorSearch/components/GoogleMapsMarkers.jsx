@@ -145,6 +145,10 @@ const GoogleMapsMarkers = (props) => {
   // Handle individual station click
   const handleStationClick = (station) => {
     console.log("Station clicked:", station);
+    if (!map) return;
+    if (!station.coordinates) return;
+    console.log("marker clicked:", station.coordinates.toString());
+    map.panTo(station.coordinates);
     // Add your custom behavior here
   };
 
