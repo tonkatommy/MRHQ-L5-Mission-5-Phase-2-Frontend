@@ -1,12 +1,10 @@
-import { useEffect, useState, useRef } from "react";
-import { useMap } from "@vis.gl/react-google-maps";
-import { MarkerClusterer } from "@googlemaps/markerclusterer";
+import { useEffect, useState, useMemo } from "react";
+import { AdvancedMarker, Pin, useMap } from "@vis.gl/react-google-maps";
 
 const GoogleMapsMarkers = (props) => {
   const map = useMap();
   const [stationData, setStationData] = useState([]);
-  const clusterer = useRef(null);
-  const markersRef = useRef([]);
+  const [zoom, setZoom] = useState(6);
 
   // Fetch station data from backend
   useEffect(() => {
@@ -27,94 +25,166 @@ const GoogleMapsMarkers = (props) => {
     fetchStationData();
   }, []);
 
-  // Initialize MarkerClusterer
+  // Listen to zoom changes
   useEffect(() => {
     if (!map) return;
-    if (!clusterer.current) {
-      clusterer.current = new MarkerClusterer({
-        map,
-        renderer: {
-          render: ({ count, position }) => {
-            // Custom cluster marker styling
-            const marker = new google.maps.Marker({
-              position,
-              icon: {
-                url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
-                  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
-                    <circle cx="20" cy="20" r="18" fill="#F26522" stroke="#FFF" stroke-width="2"/>
-                    <text x="20" y="25" text-anchor="middle" fill="white" font-family="Arial" font-size="12" font-weight="bold">${count}</text>
-                  </svg>
-                `)}`,
-                scaledSize: new google.maps.Size(40, 40),
-                anchor: new google.maps.Point(20, 20),
-              },
-              zIndex: 1000,
-            });
-            return marker;
-          },
-        },
-      });
-    }
+
+    const listener = map.addListener("zoom_changed", () => {
+      setZoom(map.getZoom() || 6);
+    });
+
+    return () => {
+      google.maps.event.removeListener(listener);
+    };
   }, [map]);
 
-  // Create markers and add to clusterer when station data changes
-  useEffect(() => {
-    if (!map || !clusterer.current || stationData.length === 0) return;
+  // Helper function to get cluster radius based on zoom level
+  const getClusterRadius = (zoomLevel) => {
+    const baseRadius = 100; // Base radius in km
+    return baseRadius / Math.pow(2, zoomLevel - 6);
+  };
 
-    // Clear existing markers
-    clusterer.current.clearMarkers();
-    markersRef.current.forEach((marker) => {
-      marker.setMap(null);
-    });
-    markersRef.current = [];
+  // Helper function to calculate distance between two points
+  const getDistance = (lat1, lng1, lat2, lng2) => {
+    const R = 6371; // Earth's radius in km
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLng = ((lng2 - lng1) * Math.PI) / 180;
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  };
 
-    // Create new markers
-    const markers = stationData.map((station) => {
-      const marker = new google.maps.Marker({
-        position: station.coordinates,
-        icon: {
-          url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32">
-              <path d="M12 0C5.372 0 0 5.372 0 12c0 9 12 20 12 20s12-11 12-20c0-6.628-5.372-12-12-12z" fill="#F26522"/>
-              <circle cx="12" cy="12" r="8" fill="#FFF"/>
-              <text x="12" y="16" text-anchor="middle" fill="#F26522" font-family="Arial" font-size="10" font-weight="bold">Z</text>
-            </svg>
-          `)}`,
-          scaledSize: new google.maps.Size(24, 32),
-          anchor: new google.maps.Point(12, 32),
-        },
-        title: station.stationName,
+  // Simple clustering algorithm based on zoom level
+  const processedStations = useMemo(() => {
+    if (!stationData.length) return [];
+
+    // At high zoom levels, show all markers
+    if (zoom >= 12) {
+      return stationData.map((station) => ({
+        ...station,
+        isCluster: false,
+        count: 1,
+      }));
+    }
+
+    // At lower zoom levels, cluster nearby stations
+    const clusters = [];
+    const processed = new Set();
+    const clusterRadius = getClusterRadius(zoom);
+
+    stationData.forEach((station, index) => {
+      if (processed.has(index)) return;
+
+      const nearbyStations = [station];
+      processed.add(index);
+
+      // Find nearby stations
+      stationData.forEach((otherStation, otherIndex) => {
+        if (processed.has(otherIndex) || index === otherIndex) return;
+
+        const distance = getDistance(
+          station.coordinates.lat,
+          station.coordinates.lng,
+          otherStation.coordinates.lat,
+          otherStation.coordinates.lng
+        );
+
+        if (distance <= clusterRadius) {
+          nearbyStations.push(otherStation);
+          processed.add(otherIndex);
+        }
       });
 
-      // Add click listener for marker
-      marker.addListener("click", () => {
-        console.log("Station clicked:", station);
-        // You can add custom behavior here, like showing an info window
-      });
+      // Create cluster or individual marker
+      if (nearbyStations.length > 1) {
+        // Calculate cluster center
+        const centerLat =
+          nearbyStations.reduce((sum, s) => sum + s.coordinates.lat, 0) / nearbyStations.length;
+        const centerLng =
+          nearbyStations.reduce((sum, s) => sum + s.coordinates.lng, 0) / nearbyStations.length;
 
-      return marker;
-    });
-
-    // Store markers reference
-    markersRef.current = markers;
-
-    // Add markers to clusterer
-    clusterer.current.addMarkers(markers);
-  }, [map, stationData]);
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (clusterer.current) {
-        clusterer.current.clearMarkers();
+        clusters.push({
+          _id: `cluster-${clusters.length}`,
+          coordinates: { lat: centerLat, lng: centerLng },
+          isCluster: true,
+          count: nearbyStations.length,
+          stations: nearbyStations,
+          stationName: `${nearbyStations.length} Z Stations`,
+        });
+      } else {
+        clusters.push({
+          ...station,
+          isCluster: false,
+          count: 1,
+        });
       }
-      markersRef.current.forEach((marker) => {
-        marker.setMap(null);
-      });
-    };
-  }, []);
+    });
 
-  return null; // We're using traditional markers, not React components
+    return clusters;
+  }, [stationData, zoom]);
+
+  // Handle cluster click - zoom in to show individual stations
+  const handleClusterClick = (cluster) => {
+    if (!map || !cluster.isCluster) return;
+
+    // Calculate bounds for all stations in cluster
+    const bounds = new google.maps.LatLngBounds();
+    cluster.stations.forEach((station) => {
+      bounds.extend(station.coordinates);
+    });
+
+    // Fit map to cluster bounds
+    map.fitBounds(bounds);
+  };
+
+  // Handle individual station click
+  const handleStationClick = (station) => {
+    console.log("Station clicked:", station);
+    // Add your custom behavior here
+  };
+
+  return (
+    <>
+      {processedStations.map((item) => (
+        <AdvancedMarker
+          key={item._id}
+          position={item.coordinates}
+          onClick={() => (item.isCluster ? handleClusterClick(item) : handleStationClick(item))}
+        >
+          {item.isCluster ? (
+            // Cluster marker
+            <div
+              style={{
+                width: "40px",
+                height: "40px",
+                backgroundColor: "#F26522",
+                border: "2px solid #FFF",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "white",
+                fontWeight: "bold",
+                fontSize: "12px",
+                cursor: "pointer",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
+              }}
+            >
+              {item.count}
+            </div>
+          ) : (
+            // Individual station marker
+            <Pin background={"#F26522"} glyphColor={"#FFF"} borderColor={"#F26522"} scale={1.2} />
+          )}
+        </AdvancedMarker>
+      ))}
+    </>
+  );
 };
 
 export default GoogleMapsMarkers;
