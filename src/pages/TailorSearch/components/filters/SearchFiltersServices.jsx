@@ -2,11 +2,15 @@ import { useState, useRef, useEffect } from "react";
 import styles from "./SearchFiltersServices.module.css";
 import downArrow from "../../../../assets/chevron-down.svg";
 
-function SearchFiltersServices() {
+function SearchFiltersServices({ onSelectionChange }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [expanded, setExpanded] = useState(null); // Track which parent item is expanded
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    onSelectionChange?.(selectedOptions);
+  }, [selectedOptions, onSelectionChange]);
 
   const options = {
     "EV Charging": [
@@ -143,9 +147,9 @@ function SearchFiltersServices() {
                   <path
                     d="M6 9L12 15L18 9"
                     // stroke="black"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               </div>
