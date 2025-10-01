@@ -5,8 +5,16 @@
 .searchFiltersWrapper {
   position: absolute;
   top: 48px;
-  left: 143px;
-  right: 143px;
   bottom: 822px;
   z-index: 3000;
+}
+
+.defaultSpacing {
+  left: 143px;
+  right: 143px;
+}
+
+.withToggle {
+  left: 84px;
+  right: 84px;
 }

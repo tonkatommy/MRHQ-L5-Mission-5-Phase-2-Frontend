@@ -2,12 +2,16 @@ import { useState, useRef, useEffect } from "react";
 import styles from "./SearchFiltersFuel.module.css";
 import downArrow from "../../../../assets/chevron-down.svg";
 
-function SearchFiltersFuel() {
+function SearchFiltersFuel({ onSelectionChange }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Select fuel type");
   const dropdownRef = useRef(null);
 
   const options = ["ZX Premium", "Z91 Unleaded", "Z Diesel"];
+
+  useEffect(() => {
+    onSelectionChange?.(selected);
+  }, [selected, onSelectionChange]);
 
   const handleSelect = (option) => {
     setSelected(option);
