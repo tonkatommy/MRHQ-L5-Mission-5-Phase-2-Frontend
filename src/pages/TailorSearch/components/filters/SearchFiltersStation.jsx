@@ -2,12 +2,16 @@ import { useState, useRef, useEffect } from "react";
 import styles from "./SearchFiltersStation.module.css";
 import downArrow from "../../../../assets/chevron-down.svg";
 
-function SearchFiltersStation() {
+function SearchFiltersStation({ onSelectionChange }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Select station type");
   const dropdownRef = useRef(null);
 
   const options = ["Truck stop", "Service station"];
+
+  useEffect(() => {
+    onSelectionChange?.(selected);
+  }, [selected, onSelectionChange]);
 
   const handleSelect = (option) => {
     setSelected(option);
