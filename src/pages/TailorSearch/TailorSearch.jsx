@@ -14,6 +14,7 @@ function TailorSearch() {
   const [userLocation, setUserLocation] = useState(null); // Add user location state
   const [selectedStation, setSelectedStation] = useState(null); // Add selected station state
   const [resetTrigger, setResetTrigger] = useState(0); // Add reset trigger for child components
+  const [showPrices, setShowPrices] = useState(true); // State for price visibility
 
   const mapRef = useRef();
 
@@ -40,14 +41,7 @@ function TailorSearch() {
       console.log("Calling centerAndZoom...");
       mapRef.current.centerAndZoom(lat, lng, 15);
     } else {
-      console.log(
-        "Missing data - lat:",
-        lat,
-        "lng:",
-        lng,
-        "mapRef:",
-        mapRef.current
-      );
+      console.log("Missing data - lat:", lat, "lng:", lng, "mapRef:", mapRef.current);
     }
   };
 
@@ -164,6 +158,7 @@ function TailorSearch() {
           userLocation={userLocation}
           selectedStation={selectedStation}
           onStationSelect={handleStationSelect}
+          showPrices={showPrices}
         />
         <div
           className={`${styles.searchFiltersWrapper} ${
@@ -174,6 +169,7 @@ function TailorSearch() {
             onShowToggle={() => setToggleShown(true)}
             onFilterResults={handleFilterResults} // Prop to pass values
             resetTrigger={resetTrigger}
+            onPriceToggle={setShowPrices}
           />
 
           {/* Reset Button */}

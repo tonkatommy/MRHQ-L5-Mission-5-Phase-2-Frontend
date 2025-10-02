@@ -6,8 +6,9 @@ import SearchFiltersStation from "./filters/SearchFiltersStation";
 import styles from "./SearchFilters.module.css";
 import ToggleButton from "./ToggleButton";
 
-function SearchFilters({ onShowToggle, onFilterResults, resetTrigger }) {
+function SearchFilters({ onShowToggle, onFilterResults, resetTrigger, onPriceToggle }) {
   const [showToggleButton, setShowToggleButton] = useState(false);
+  const [showPrices, setShowPrices] = useState(true); // Default to showing prices
 
   // Initial state for the filters
   const [selectedServices, setSelectedServices] = useState([]);
@@ -21,8 +22,17 @@ function SearchFilters({ onShowToggle, onFilterResults, resetTrigger }) {
       setSelectedServices([]);
       setSelectedFuelType("");
       setSelectedStationType("");
+      setShowPrices(true); // Reset to showing prices
     }
   }, [resetTrigger]);
+
+  // Handle price toggle and notify parent
+  const handlePriceToggle = (newState) => {
+    setShowPrices(newState);
+    if (onPriceToggle) {
+      onPriceToggle(newState);
+    }
+  };
 
   // Function to apply the filters
   const handleApplyFilters = async () => {
@@ -37,14 +47,11 @@ function SearchFilters({ onShowToggle, onFilterResults, resetTrigger }) {
 
     // Send data to backend
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/filter-stations",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(filterData),
-        }
-      );
+      const response = await fetch("http://localhost:3000/api/filter-stations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(filterData),
+      });
       const data = await response.json();
 
       if (data.success) {
@@ -73,20 +80,14 @@ function SearchFilters({ onShowToggle, onFilterResults, resetTrigger }) {
         showToggleButton ? styles.containerWithToggle : styles.containerDefault
       }`}
     >
-      <SearchFiltersServices
-        onSelectionChange={setSelectedServices}
-        resetTrigger={resetTrigger}
-      />
-      <SearchFiltersFuel
-        onSelectionChange={setSelectedFuelType}
-        resetTrigger={resetTrigger}
-      />
+      <SearchFiltersServices onSelectionChange={setSelectedServices} resetTrigger={resetTrigger} />
+      <SearchFiltersFuel onSelectionChange={setSelectedFuelType} resetTrigger={resetTrigger} />
       <SearchFiltersStation
         onSelectionChange={setSelectedStationType}
         resetTrigger={resetTrigger}
       />
       <SearchButton onClick={handleApplyFilters} />
-      {showToggleButton && <ToggleButton />}
+      {showToggleButton && <ToggleButton toggled={showPrices} onToggle={handlePriceToggle} />}
     </div>
   );
 }

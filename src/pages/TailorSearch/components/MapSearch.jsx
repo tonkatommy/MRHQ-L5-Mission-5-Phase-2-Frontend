@@ -3,7 +3,7 @@ import GoogleMap from "./GoogleMap";
 import styles from "./MapSearch.module.css";
 
 const MapSearch = forwardRef((props, ref) => {
-  const { stations, userLocation, selectedStation, onStationSelect } = props;
+  const { stations, userLocation, selectedStation, onStationSelect, showPrices } = props;
 
   return (
     <div className={styles.container}>
@@ -13,6 +13,7 @@ const MapSearch = forwardRef((props, ref) => {
         userLocation={userLocation}
         selectedStation={selectedStation}
         onStationSelect={onStationSelect}
+        showPrices={showPrices}
       />
     </div>
   );
