@@ -25,6 +25,17 @@ const StationCard = (props) => {
   const toggleMoreInfo = () => {
     setShowMoreInfo(!showMoreInfo);
   };
+
+  // Map fuel type names to short codes
+  const getFuelTypeCode = (fuelTypeName) => {
+    const fuelTypeMap = {
+      "Z Diesel": fuelTypes?.diesel || "D",
+      "Z91 Unleaded": fuelTypes?.unleaded || "91",
+      "ZX Premium": fuelTypes?.premium || "96",
+    };
+    return fuelTypeMap[fuelTypeName] || fuelTypeName;
+  };
+
   return (
     <div className={`${styles.container} ${showMoreInfo ? styles.expanded : ""}`}>
       {/* Station Information */}
@@ -42,7 +53,7 @@ const StationCard = (props) => {
         <div className={styles.fuelIndicators}>
           {selectedFuelPrice && selectedFuelPrice.length > 0 ? (
             selectedFuelPrice.map((fuel, index) => (
-              <PriceCard key={index} fuelType={fuel.type} fuelPrice={fuel.price} />
+              <PriceCard key={index} fuelType={getFuelTypeCode(fuel.type)} fuelPrice={fuel.price} />
             ))
           ) : (
             <>
