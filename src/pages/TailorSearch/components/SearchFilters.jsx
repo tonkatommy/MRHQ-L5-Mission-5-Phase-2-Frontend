@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchButton from "./filters/SearchButton";
 import SearchFiltersFuel from "./filters/SearchFiltersFuel";
 import SearchFiltersServices from "./filters/SearchFiltersServices";
@@ -6,13 +6,23 @@ import SearchFiltersStation from "./filters/SearchFiltersStation";
 import styles from "./SearchFilters.module.css";
 import ToggleButton from "./ToggleButton";
 
-function SearchFilters({ onShowToggle, onFilterResults }) {
+function SearchFilters({ onShowToggle, onFilterResults, resetTrigger }) {
   const [showToggleButton, setShowToggleButton] = useState(false);
 
   // Initial state for the filters
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedFuelType, setSelectedFuelType] = useState("");
   const [selectedStationType, setSelectedStationType] = useState("");
+
+  // Reset component state when resetTrigger changes
+  useEffect(() => {
+    if (resetTrigger > 0) {
+      setShowToggleButton(false);
+      setSelectedServices([]);
+      setSelectedFuelType("");
+      setSelectedStationType("");
+    }
+  }, [resetTrigger]);
 
   // Function to apply the filters
   const handleApplyFilters = async () => {
@@ -63,9 +73,18 @@ function SearchFilters({ onShowToggle, onFilterResults }) {
         showToggleButton ? styles.containerWithToggle : styles.containerDefault
       }`}
     >
-      <SearchFiltersServices onSelectionChange={setSelectedServices} />
-      <SearchFiltersFuel onSelectionChange={setSelectedFuelType} />
-      <SearchFiltersStation onSelectionChange={setSelectedStationType} />
+      <SearchFiltersServices
+        onSelectionChange={setSelectedServices}
+        resetTrigger={resetTrigger}
+      />
+      <SearchFiltersFuel
+        onSelectionChange={setSelectedFuelType}
+        resetTrigger={resetTrigger}
+      />
+      <SearchFiltersStation
+        onSelectionChange={setSelectedStationType}
+        resetTrigger={resetTrigger}
+      />
       <SearchButton onClick={handleApplyFilters} />
       {showToggleButton && <ToggleButton />}
     </div>

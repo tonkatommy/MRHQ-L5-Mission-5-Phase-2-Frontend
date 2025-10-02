@@ -13,6 +13,7 @@ function TailorSearch() {
   const [showResults, setShowResults] = useState(false);
   const [userLocation, setUserLocation] = useState(null); // Add user location state
   const [selectedStation, setSelectedStation] = useState(null); // Add selected station state
+  const [resetTrigger, setResetTrigger] = useState(0); // Add reset trigger for child components
 
   const mapRef = useRef();
 
@@ -118,6 +119,37 @@ function TailorSearch() {
     }
   };
 
+  // Add reset function to return everything to initial state
+  const handleReset = () => {
+    console.log("Resetting to initial state...");
+
+    // Reset all state variables
+    setToggleShown(false);
+    setFilteredStations([]);
+    setShowResults(false);
+    setUserLocation(null);
+    setSelectedStation(null);
+
+    // Trigger reset in child components
+    setResetTrigger((prev) => prev + 1);
+
+    // Clear directions on map
+    if (mapRef.current && mapRef.current.clearDirections) {
+      mapRef.current.clearDirections();
+    }
+
+    // Reset map to default view
+    if (mapRef.current) {
+      mapRef.current.centerAndZoom(-42.48101284616512, 172.16160268498984, 6);
+    }
+
+    // Clear search input
+    const locationInput = document.getElementById("locationInput");
+    if (locationInput) {
+      locationInput.value = "";
+    }
+  };
+
   return (
     <>
       <Header />
@@ -141,7 +173,37 @@ function TailorSearch() {
           <SearchFilters
             onShowToggle={() => setToggleShown(true)}
             onFilterResults={handleFilterResults} // Prop to pass values
+            resetTrigger={resetTrigger}
           />
+
+          {/* Reset Button */}
+          {(showResults || userLocation || selectedStation) && (
+            <div
+              style={{
+                position: "absolute",
+                top: "95px", // Below the filters
+                right: "137.5px",
+                zIndex: 3000,
+              }}
+            >
+              <button
+                onClick={handleReset}
+                style={{
+                  backgroundColor: "#F26522",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "4px",
+                  padding: "8px 16px",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+                }}
+              >
+                Reset All
+              </button>
+            </div>
+          )}
         </div>
         <div className={styles.stationResultsWrapper}>
           <StationResults
