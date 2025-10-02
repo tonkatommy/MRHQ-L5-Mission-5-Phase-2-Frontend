@@ -6,7 +6,69 @@ import GoogleMapsMarkers from "./GoogleMapsMarkers.jsx";
 
 const GoogleMapInner = forwardRef((props, ref) => {
   const map = useMap(); // This hook gets the map instance
-  const { stations, userLocation } = props;
+  const { stations, userLocation, selectedStation, onStationSelect } = props;
+  const [directionsRenderer, setDirectionsRenderer] = useState(null);
+  const [directionsService, setDirectionsService] = useState(null);
+
+  // Initialize directions service and renderer
+  useEffect(() => {
+    if (map && window.google) {
+      const service = new window.google.maps.DirectionsService();
+      const renderer = new window.google.maps.DirectionsRenderer({
+        polylineOptions: {
+          strokeColor: "#F26522", // Orange color
+          strokeWeight: 4,
+          strokeOpacity: 0.8,
+        },
+        suppressMarkers: true, // Don't show default A/B markers
+      });
+
+      renderer.setMap(map);
+      setDirectionsService(service);
+      setDirectionsRenderer(renderer);
+
+      return () => {
+        renderer.setMap(null);
+      };
+    }
+  }, [map]);
+
+  // Handle directions when selected station changes
+  useEffect(() => {
+    if (
+      directionsService &&
+      directionsRenderer &&
+      selectedStation &&
+      userLocation
+    ) {
+      const origin = userLocation;
+      const destination = {
+        lat: selectedStation.coordinates?.lat || selectedStation.latitude,
+        lng: selectedStation.coordinates?.lng || selectedStation.longitude,
+      };
+
+      console.log("Getting directions from:", origin, "to:", destination);
+
+      directionsService.route(
+        {
+          origin: origin,
+          destination: destination,
+          travelMode: window.google.maps.TravelMode.DRIVING,
+        },
+        (result, status) => {
+          if (status === "OK") {
+            console.log("Directions result:", result);
+            directionsRenderer.setDirections(result);
+          } else {
+            console.error("Directions request failed:", status);
+          }
+        }
+      );
+    } else if (directionsRenderer && !selectedStation) {
+      // Clear directions when no station is selected
+      directionsRenderer.setDirections({ routes: [] });
+    }
+  }, [directionsService, directionsRenderer, selectedStation, userLocation]);
 
   // Expose map control functions to parent components
   useImperativeHandle(ref, () => ({
@@ -23,6 +85,11 @@ const GoogleMapInner = forwardRef((props, ref) => {
       }
     },
     getMapInstance: () => map,
+    clearDirections: () => {
+      if (directionsRenderer) {
+        directionsRenderer.setDirections({ routes: [] });
+      }
+    },
   }));
 
   useEffect(() => {
@@ -31,13 +98,20 @@ const GoogleMapInner = forwardRef((props, ref) => {
     }
   }, [map]);
 
-  return <GoogleMapsMarkers stations={stations} userLocation={userLocation} />;
+  return (
+    <GoogleMapsMarkers
+      stations={stations}
+      userLocation={userLocation}
+      selectedStation={selectedStation}
+      onStationSelect={onStationSelect}
+    />
+  );
 });
 
 GoogleMapInner.displayName = "GoogleMapInner";
 
 const GoogleMap = forwardRef((props, ref) => {
-  const { stations, userLocation } = props;
+  const { stations, userLocation, selectedStation, onStationSelect } = props;
 
   // Function to handle custom My Location button click
   const handleMyLocationClick = () => {
@@ -92,6 +166,8 @@ const GoogleMap = forwardRef((props, ref) => {
             ref={ref}
             stations={stations}
             userLocation={userLocation}
+            selectedStation={selectedStation}
+            onStationSelect={onStationSelect}
           />
         </Map>
       </APIProvider>

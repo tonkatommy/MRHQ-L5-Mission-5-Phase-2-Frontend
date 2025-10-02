@@ -3,7 +3,7 @@ import { AdvancedMarker, Pin, useMap } from "@vis.gl/react-google-maps";
 
 const GoogleMapsMarkers = (props) => {
   const map = useMap();
-  const { stations, userLocation } = props;
+  const { stations, userLocation, selectedStation, onStationSelect } = props;
   const [allStationData, setAllStationData] = useState([]);
   const [zoom, setZoom] = useState(6);
 
@@ -117,9 +117,11 @@ const GoogleMapsMarkers = (props) => {
       if (nearbyStations.length > 1) {
         // Calculate cluster center
         const centerLat =
-          nearbyStations.reduce((sum, s) => sum + s.coordinates.lat, 0) / nearbyStations.length;
+          nearbyStations.reduce((sum, s) => sum + s.coordinates.lat, 0) /
+          nearbyStations.length;
         const centerLng =
-          nearbyStations.reduce((sum, s) => sum + s.coordinates.lng, 0) / nearbyStations.length;
+          nearbyStations.reduce((sum, s) => sum + s.coordinates.lng, 0) /
+          nearbyStations.length;
 
         clusters.push({
           _id: `cluster-${clusters.length}`,
@@ -162,7 +164,11 @@ const GoogleMapsMarkers = (props) => {
     if (!station.coordinates) return;
     console.log("marker clicked:", station.coordinates.toString());
     map.panTo(station.coordinates);
-    // Add your custom behavior here
+
+    // Call the onStationSelect function to trigger directions
+    if (onStationSelect) {
+      onStationSelect(station);
+    }
   };
 
   return (
@@ -171,7 +177,9 @@ const GoogleMapsMarkers = (props) => {
         <AdvancedMarker
           key={item._id}
           position={item.coordinates}
-          onClick={() => (item.isCluster ? handleClusterClick(item) : handleStationClick(item))}
+          onClick={() =>
+            item.isCluster ? handleClusterClick(item) : handleStationClick(item)
+          }
         >
           {item.isCluster ? (
             // Cluster marker
@@ -196,11 +204,16 @@ const GoogleMapsMarkers = (props) => {
             </div>
           ) : (
             // Individual station marker
-            <Pin background={"#F26522"} glyphColor={"#FFF"} borderColor={"#F26522"} scale={1.2} />
+            <Pin
+              background={"#F26522"}
+              glyphColor={"#FFF"}
+              borderColor={"#F26522"}
+              scale={1.2}
+            />
           )}
         </AdvancedMarker>
       ))}
-      
+
       {/* User location marker */}
       {userLocation && (
         <AdvancedMarker position={userLocation}>

@@ -12,6 +12,7 @@ function TailorSearch() {
   const [filteredStations, setFilteredStations] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [userLocation, setUserLocation] = useState(null); // Add user location state
+  const [selectedStation, setSelectedStation] = useState(null); // Add selected station state
 
   const mapRef = useRef();
 
@@ -23,11 +24,14 @@ function TailorSearch() {
   // Add this function
   const handleStationClick = (station) => {
     console.log("Station clicked!", station);
-    
+
+    // Set as selected station for directions
+    setSelectedStation(station);
+
     // Extract coordinates from station data
     const lat = station.coordinates?.lat || station.latitude;
     const lng = station.coordinates?.lng || station.longitude;
-    
+
     console.log("Extracted coordinates:", { lat, lng });
     console.log("Map ref current:", mapRef.current);
 
@@ -35,14 +39,27 @@ function TailorSearch() {
       console.log("Calling centerAndZoom...");
       mapRef.current.centerAndZoom(lat, lng, 15);
     } else {
-      console.log("Missing data - lat:", lat, "lng:", lng, "mapRef:", mapRef.current);
+      console.log(
+        "Missing data - lat:",
+        lat,
+        "lng:",
+        lng,
+        "mapRef:",
+        mapRef.current
+      );
     }
+  };
+
+  // Function to handle station selection (both from marker click and card click)
+  const handleStationSelect = (station) => {
+    console.log("Station selected for directions:", station);
+    setSelectedStation(station);
   };
 
   // Add current location handler
   const handleCurrentLocation = () => {
     console.log("Getting current location...");
-    
+
     if (!navigator.geolocation) {
       alert("Geolocation is not supported by this browser.");
       return;
@@ -52,12 +69,12 @@ function TailorSearch() {
       (position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
-        
+
         console.log("Current location:", { lat, lng });
-        
+
         // Set user location state
         setUserLocation({ lat, lng });
-        
+
         if (mapRef.current) {
           // Center and zoom to user's location
           mapRef.current.centerAndZoom(lat, lng, 15);
@@ -65,7 +82,7 @@ function TailorSearch() {
       },
       (error) => {
         console.error("Error getting location:", error);
-        switch(error.code) {
+        switch (error.code) {
           case error.PERMISSION_DENIED:
             alert("Location access denied by user.");
             break;
@@ -83,7 +100,7 @@ function TailorSearch() {
       {
         enableHighAccuracy: true,
         timeout: 10000,
-        maximumAge: 60000
+        maximumAge: 60000,
       }
     );
   };
@@ -93,10 +110,12 @@ function TailorSearch() {
       <Header />
       <HeroSearch onCurrentLocation={handleCurrentLocation} />
       <div className={styles.mapWrapper}>
-        <MapSearch 
-          ref={mapRef} 
+        <MapSearch
+          ref={mapRef}
           stations={filteredStations}
           userLocation={userLocation}
+          selectedStation={selectedStation}
+          onStationSelect={handleStationSelect}
         />
         <div
           className={`${styles.searchFiltersWrapper} ${
