@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { AdvancedMarker, Pin, useMap } from "@vis.gl/react-google-maps";
+import React from "react";
 
 const GoogleMapsMarkers = (props) => {
   const map = useMap();
@@ -117,11 +118,9 @@ const GoogleMapsMarkers = (props) => {
       if (nearbyStations.length > 1) {
         // Calculate cluster center
         const centerLat =
-          nearbyStations.reduce((sum, s) => sum + s.coordinates.lat, 0) /
-          nearbyStations.length;
+          nearbyStations.reduce((sum, s) => sum + s.coordinates.lat, 0) / nearbyStations.length;
         const centerLng =
-          nearbyStations.reduce((sum, s) => sum + s.coordinates.lng, 0) /
-          nearbyStations.length;
+          nearbyStations.reduce((sum, s) => sum + s.coordinates.lng, 0) / nearbyStations.length;
 
         clusters.push({
           _id: `cluster-${clusters.length}`,
@@ -171,48 +170,163 @@ const GoogleMapsMarkers = (props) => {
     }
   };
 
+  // Helper function to get fuel type code
+  const getFuelTypeCode = (dbField) => {
+    const fuelTypeMap = {
+      ZDiesel: "D",
+      Z91: "91",
+      ZPremium: "96",
+    };
+    return fuelTypeMap[dbField] || dbField;
+  };
+
+  // Helper function to get cheapest fuel price for a station
+  const getCheapestFuel = (station) => {
+    // Check different possible property names for fuel prices
+    const fuelPrices = station.fuelPrices || station.prices || station.fuelPrice;
+
+    if (!fuelPrices) {
+      return null;
+    }
+
+    const prices = [
+      { type: "D", price: fuelPrices.ZDiesel, dbField: "ZDiesel" },
+      { type: "91", price: fuelPrices.Z91, dbField: "Z91" },
+      { type: "96", price: fuelPrices.ZPremium, dbField: "ZPremium" },
+    ].filter((fuel) => fuel.price !== null && fuel.price !== undefined);
+
+    if (prices.length === 0) return null;
+
+    // Find cheapest price
+    return prices.reduce((min, fuel) =>
+      parseFloat(fuel.price) < parseFloat(min.price) ? fuel : min
+    );
+  };
+
+  // Helper function to get selected fuel price if available
+  const getSelectedFuel = (station) => {
+    // Check if station has selectedFuelPrice array (from filtered results)
+    if (station.selectedFuelPrice && station.selectedFuelPrice.length > 0) {
+      const selected = station.selectedFuelPrice[0];
+      return {
+        type: getFuelTypeCode(selected.dbField || selected.type),
+        price: selected.price,
+        dbField: selected.dbField || selected.type,
+      };
+    }
+    return null;
+  };
+
+  // Helper function to get background color based on fuel type
+  const getFuelColor = (fuelType) => {
+    switch (fuelType) {
+      case "D":
+        return "#36353a"; // Dark grey for Diesel
+      case "91":
+        return "#31522f"; // Dark green for 91
+      case "96":
+        return "#b64138"; // Dark red for Premium 96
+      default:
+        return "#36353a"; // Default dark grey
+    }
+  };
+
+  // Determine if we should show price cards based on zoom
+  const shouldShowPrices = zoom >= 11;
+
+  // Calculate dynamic offset based on zoom level
+  // At higher zoom, we need smaller lat/lng offsets for same pixel distance
+  const getPriceCardOffset = (zoomLevel) => {
+    // Base offset that works well at zoom 12
+    const baseOffset = 0.0135;
+    // Scale inversely with zoom: higher zoom = smaller offset needed
+    // At zoom 11: offset ~0.002
+    // At zoom 12: offset ~0.001
+    // At zoom 13: offset ~0.0005
+    // At zoom 15: offset ~0.000125
+    return baseOffset / Math.pow(2, zoomLevel - 12);
+  };
+
   return (
     <>
-      {processedStations.map((item) => (
-        <AdvancedMarker
-          key={item._id}
-          position={item.coordinates}
-          onClick={() =>
-            item.isCluster ? handleClusterClick(item) : handleStationClick(item)
-          }
-        >
-          {item.isCluster ? (
-            // Cluster marker
-            <div
-              style={{
-                width: "40px",
-                height: "40px",
-                backgroundColor: "#F26522",
-                border: "2px solid #FFF",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "white",
-                fontWeight: "bold",
-                fontSize: "12px",
-                cursor: "pointer",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
-              }}
+      {processedStations.map((item) => {
+        // Prioritize selected fuel, fall back to cheapest fuel
+        const selectedFuel = !item.isCluster && shouldShowPrices ? getSelectedFuel(item) : null;
+        const cheapestFuel =
+          !selectedFuel && !item.isCluster && shouldShowPrices ? getCheapestFuel(item) : null;
+        const fuelToDisplay = selectedFuel || cheapestFuel;
+
+        return (
+          <React.Fragment key={item._id}>
+            {/* Price card as separate marker (rendered above the pin) */}
+            {fuelToDisplay && (
+              <AdvancedMarker
+                position={{
+                  lat: item.coordinates.lat + getPriceCardOffset(zoom),
+                  lng: item.coordinates.lng,
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: getFuelColor(fuelToDisplay.type),
+                    color: "white",
+                    padding: "6px 10px",
+                    borderRadius: "6px",
+                    fontSize: "13px",
+                    fontWeight: "bold",
+                    whiteSpace: "nowrap",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    pointerEvents: "none",
+                  }}
+                >
+                  <span style={{ fontSize: "11px", opacity: 0.9 }}>{fuelToDisplay.type}</span>
+                  <span>| ${fuelToDisplay.price}</span>
+                </div>
+              </AdvancedMarker>
+            )}
+
+            {/* Station marker */}
+            <AdvancedMarker
+              position={item.coordinates}
+              onClick={() => (item.isCluster ? handleClusterClick(item) : handleStationClick(item))}
             >
-              {item.count}
-            </div>
-          ) : (
-            // Individual station marker
-            <Pin
-              background={"#F26522"}
-              glyphColor={"#FFF"}
-              borderColor={"#F26522"}
-              scale={1.2}
-            />
-          )}
-        </AdvancedMarker>
-      ))}
+              {item.isCluster ? (
+                // Cluster marker
+                <div
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    backgroundColor: "#F26522",
+                    border: "2px solid #FFF",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "12px",
+                    cursor: "pointer",
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
+                  }}
+                >
+                  {item.count}
+                </div>
+              ) : (
+                // Individual station marker
+                <Pin
+                  background={"#F26522"}
+                  glyphColor={"#FFF"}
+                  borderColor={"#F26522"}
+                  scale={1.2}
+                />
+              )}
+            </AdvancedMarker>
+          </React.Fragment>
+        );
+      })}
 
       {/* User location marker */}
       {userLocation && (
