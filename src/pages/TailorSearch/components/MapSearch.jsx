@@ -3,11 +3,17 @@ import GoogleMap from "./GoogleMap";
 import styles from "./MapSearch.module.css";
 
 const MapSearch = forwardRef((props, ref) => {
-  const { stations } = props;
-  
+  const { stations, userLocation, selectedStation, onStationSelect } = props;
+
   return (
     <div className={styles.container}>
-      <GoogleMap ref={ref} stations={stations} />
+      <GoogleMap
+        ref={ref}
+        stations={stations}
+        userLocation={userLocation}
+        selectedStation={selectedStation}
+        onStationSelect={onStationSelect}
+      />
     </div>
   );
 });
