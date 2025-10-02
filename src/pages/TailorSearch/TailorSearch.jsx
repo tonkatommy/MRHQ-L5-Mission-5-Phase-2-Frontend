@@ -105,10 +105,26 @@ function TailorSearch() {
     );
   };
 
+  // Add location search handler for geocoding
+  const handleLocationSearch = (coordinates, locationName) => {
+    console.log("Location search result:", coordinates, locationName);
+
+    // Set the geocoded location as user location
+    setUserLocation(coordinates);
+
+    if (mapRef.current) {
+      // Center and zoom to the searched location
+      mapRef.current.centerAndZoom(coordinates.lat, coordinates.lng, 15);
+    }
+  };
+
   return (
     <>
       <Header />
-      <HeroSearch onCurrentLocation={handleCurrentLocation} />
+      <HeroSearch
+        onCurrentLocation={handleCurrentLocation}
+        onLocationSearch={handleLocationSearch}
+      />
       <div className={styles.mapWrapper}>
         <MapSearch
           ref={mapRef}
