@@ -1,7 +1,7 @@
 import StationCard from "../../FindStation/components/StationCard";
 import styles from "./StationResults.module.css";
 
-function StationResults({ stations, isVisible }) {
+function StationResults({ stations, isVisible, onStationClick }) {
   if (!isVisible || !stations || stations.length === 0) {
     return null;
   }
@@ -50,6 +50,9 @@ function StationResults({ stations, isVisible }) {
           <StationCard
             key={station._id || index}
             {...mapStationData(station)}
+            onClick={() => {
+              onStationClick(station);
+            }}
           />
         ))}
       </div>

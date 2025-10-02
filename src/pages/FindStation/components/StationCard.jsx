@@ -11,7 +11,19 @@ const StationCard = (props) => {
     fuelTypes,
     services,
     moreInfoItems = [],
+    onClick,
   } = props;
+
+  // Click handler
+  const handleCardClick = () => {
+    console.log("StationCard clicked!");
+    if (onClick) {
+      console.log("Calling onClick prop...");
+      onClick();
+    } else {
+      console.log("No onClick prop provided");
+    }
+  };
 
   const [showMoreInfo, setShowMoreInfo] = useState(false);
 
@@ -21,6 +33,8 @@ const StationCard = (props) => {
   return (
     <div
       className={`${styles.container} ${showMoreInfo ? styles.expanded : ""}`}
+      onClick={handleCardClick}
+      style={{ cursor: "pointer" }}
     >
       {/* Station Information */}
       <div className={styles.header}>
