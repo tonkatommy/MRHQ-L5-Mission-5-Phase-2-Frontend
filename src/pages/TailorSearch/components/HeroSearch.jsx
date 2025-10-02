@@ -2,32 +2,79 @@ import styles from "./HeroSearch.module.css";
 import searchArrow from "../../../assets/SearchButtonVector.svg";
 import currentLocationIcon from "../../../assets/current_location_icon.svg";
 
-async function handleSearch(e) {
-  e.preventDefault();
+function HeroSearch({ onCurrentLocation, onLocationSearch }) {
+  const handleCurrentLocationClick = () => {
+    if (onCurrentLocation) {
+      onCurrentLocation();
+    }
+  };
 
-  const locationInput = document.getElementById("locationInput");
-  const searchLocation = locationInput.value;
-  console.log(searchLocation);
+  const handleSearch = async (e) => {
+    e.preventDefault();
 
-  try {
-    const response = await fetch("http://localhost:3000/api/find-station", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        location: searchLocation,
-      }),
-    });
+    const locationInput = document.getElementById("locationInput");
+    const searchLocation = locationInput.value.trim();
 
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
+    if (!searchLocation) {
+      alert("Please enter a location to search");
+      return;
+    }
 
-function HeroSearch() {
+    console.log("Searching for location:", searchLocation);
+
+    try {
+      // Use Google Geocoding API to convert address to coordinates
+      const geocoder = new window.google.maps.Geocoder();
+
+      geocoder.geocode(
+        {
+          address: searchLocation,
+          componentRestrictions: {
+            country: "NZ", // Restrict search to New Zealand only
+          },
+        },
+        (results, status) => {
+          if (status === "OK" && results[0]) {
+            const location = results[0].geometry.location;
+            const coordinates = {
+              lat: location.lat(),
+              lng: location.lng(),
+            };
+
+            console.log("Geocoded coordinates:", coordinates);
+
+            // Call the location search callback with the coordinates
+            if (onLocationSearch) {
+              onLocationSearch(coordinates, searchLocation);
+            }
+          } else {
+            console.error("Geocoding failed:", status);
+            alert(
+              "Could not find the location. Please try a different address or place name."
+            );
+          }
+        }
+      );
+
+      // Also send to backend if needed
+      const response = await fetch("http://localhost:3000/api/find-station", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          location: searchLocation,
+        }),
+      });
+
+      const data = await response.json();
+      console.log("Backend response:", data);
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while searching for the location.");
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h2 className={styles.heroText}> Tailor Your Station Search</h2>
@@ -44,7 +91,11 @@ function HeroSearch() {
           </button>
         </form>
       </div>
-      <div className={styles.currentLocation}>
+      <div
+        className={styles.currentLocation}
+        onClick={handleCurrentLocationClick}
+        style={{ cursor: "pointer" }}
+      >
         <img src={currentLocationIcon}></img>
         <p>Or use my current location</p>
       </div>

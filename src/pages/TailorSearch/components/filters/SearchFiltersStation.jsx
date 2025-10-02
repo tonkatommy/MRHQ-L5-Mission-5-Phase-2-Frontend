@@ -2,12 +2,20 @@ import { useState, useRef, useEffect } from "react";
 import styles from "./SearchFiltersStation.module.css";
 import downArrow from "../../../../assets/chevron-down.svg";
 
-function SearchFiltersStation({ onSelectionChange }) {
+function SearchFiltersStation({ onSelectionChange, resetTrigger }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Select station type");
   const dropdownRef = useRef(null);
 
   const options = ["Truck stop", "Service station"];
+
+  // Reset component state when resetTrigger changes
+  useEffect(() => {
+    if (resetTrigger > 0) {
+      setSelected("Select station type");
+      setIsOpen(false);
+    }
+  }, [resetTrigger]);
 
   useEffect(() => {
     onSelectionChange?.(selected);
