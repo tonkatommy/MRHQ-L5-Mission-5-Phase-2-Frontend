@@ -3,7 +3,7 @@ import { AdvancedMarker, Pin, useMap } from "@vis.gl/react-google-maps";
 
 const GoogleMapsMarkers = (props) => {
   const map = useMap();
-  const { stations } = props;
+  const { stations, userLocation } = props;
   const [allStationData, setAllStationData] = useState([]);
   const [zoom, setZoom] = useState(6);
 
@@ -200,6 +200,24 @@ const GoogleMapsMarkers = (props) => {
           )}
         </AdvancedMarker>
       ))}
+      
+      {/* User location marker */}
+      {userLocation && (
+        <AdvancedMarker position={userLocation}>
+          <div
+            style={{
+              width: "20px",
+              height: "20px",
+              backgroundColor: "#4285F4",
+              border: "3px solid #FFF",
+              borderRadius: "50%",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
+              cursor: "pointer",
+            }}
+            title="Your current location"
+          />
+        </AdvancedMarker>
+      )}
     </>
   );
 };

@@ -27,7 +27,13 @@ async function handleSearch(e) {
   }
 }
 
-function HeroSearch() {
+function HeroSearch({ onCurrentLocation }) {
+  const handleCurrentLocationClick = () => {
+    if (onCurrentLocation) {
+      onCurrentLocation();
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h2 className={styles.heroText}> Tailor Your Station Search</h2>
@@ -44,7 +50,11 @@ function HeroSearch() {
           </button>
         </form>
       </div>
-      <div className={styles.currentLocation}>
+      <div 
+        className={styles.currentLocation}
+        onClick={handleCurrentLocationClick}
+        style={{ cursor: 'pointer' }}
+      >
         <img src={currentLocationIcon}></img>
         <p>Or use my current location</p>
       </div>

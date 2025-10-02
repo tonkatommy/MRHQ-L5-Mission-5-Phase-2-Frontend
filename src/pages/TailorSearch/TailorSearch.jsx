@@ -11,6 +11,7 @@ function TailorSearch() {
   const [toggleShown, setToggleShown] = useState(false);
   const [filteredStations, setFilteredStations] = useState([]);
   const [showResults, setShowResults] = useState(false);
+  const [userLocation, setUserLocation] = useState(null); // Add user location state
 
   const mapRef = useRef();
 
@@ -38,14 +39,64 @@ function TailorSearch() {
     }
   };
 
+  // Add current location handler
+  const handleCurrentLocation = () => {
+    console.log("Getting current location...");
+    
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by this browser.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        
+        console.log("Current location:", { lat, lng });
+        
+        // Set user location state
+        setUserLocation({ lat, lng });
+        
+        if (mapRef.current) {
+          // Center and zoom to user's location
+          mapRef.current.centerAndZoom(lat, lng, 15);
+        }
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            alert("Location access denied by user.");
+            break;
+          case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.");
+            break;
+          case error.TIMEOUT:
+            alert("Location request timed out.");
+            break;
+          default:
+            alert("An unknown error occurred while retrieving location.");
+            break;
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 60000
+      }
+    );
+  };
+
   return (
     <>
       <Header />
-      <HeroSearch />
+      <HeroSearch onCurrentLocation={handleCurrentLocation} />
       <div className={styles.mapWrapper}>
         <MapSearch 
           ref={mapRef} 
-          stations={filteredStations} 
+          stations={filteredStations}
+          userLocation={userLocation}
         />
         <div
           className={`${styles.searchFiltersWrapper} ${
