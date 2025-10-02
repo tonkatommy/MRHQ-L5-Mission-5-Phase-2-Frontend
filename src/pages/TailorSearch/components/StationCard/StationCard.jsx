@@ -13,14 +13,27 @@ const StationCard = (props) => {
     fuelTypes,
     services,
     moreInfoItems = [],
+    onClick,
   } = props;
+
+  // Click handler
+  const handleCardClick = () => {
+    console.log("StationCard clicked!");
+    if (onClick) {
+      console.log("Calling onClick prop...");
+      onClick();
+    } else {
+      console.log("No onClick prop provided");
+    }
+  };
 
   console.log("StationCard moreInfoItems:", moreInfoItems);
   console.log("StationCard services:", services);
 
   const [showMoreInfo, setShowMoreInfo] = useState(false);
 
-  const toggleMoreInfo = () => {
+  const toggleMoreInfo = (e) => {
+    e.stopPropagation(); // Prevent event bubbling to parent onClick
     setShowMoreInfo(!showMoreInfo);
   };
 
@@ -35,7 +48,11 @@ const StationCard = (props) => {
   };
 
   return (
-    <div className={`${styles.container} ${showMoreInfo ? styles.expanded : ""}`}>
+    <div
+      className={`${styles.container} ${showMoreInfo ? styles.expanded : ""}`}
+      onClick={handleCardClick}
+      style={{ cursor: "pointer" }}
+    >
       {/* Station Information */}
       <div className={styles.header}>
         <div className={styles.headerText}>
@@ -51,32 +68,61 @@ const StationCard = (props) => {
         <div className={styles.fuelIndicators}>
           {selectedFuelPrice && selectedFuelPrice.length > 0 ? (
             selectedFuelPrice.map((fuel, index) => (
-              <PriceCard key={index} fuelType={getFuelTypeCode(fuel.type)} fuelPrice={fuel.price} />
+              <PriceCard
+                key={index}
+                fuelType={getFuelTypeCode(fuel.type)}
+                fuelPrice={fuel.price}
+              />
             ))
           ) : (
             <>
-              <PriceCard fuelType={fuelTypes.diesel} fuelPrice={fuelPrices.diesel} />
-              <PriceCard fuelType={fuelTypes.unleaded} fuelPrice={fuelPrices.unleaded} />
-              <PriceCard fuelType={fuelTypes.premium} fuelPrice={fuelPrices.premium} />
+              <PriceCard
+                fuelType={fuelTypes.diesel}
+                fuelPrice={fuelPrices.diesel}
+              />
+              <PriceCard
+                fuelType={fuelTypes.unleaded}
+                fuelPrice={fuelPrices.unleaded}
+              />
+              <PriceCard
+                fuelType={fuelTypes.premium}
+                fuelPrice={fuelPrices.premium}
+              />
             </>
           )}
         </div>
       </div>
       {/* Services Icons */}
       <div className={styles.servicesIcons}>
-        <div className={`${styles.iconContainer} ${services.lpg ? "" : styles.disabled}`}>
+        <div
+          className={`${styles.iconContainer} ${
+            services.lpg ? "" : styles.disabled
+          }`}
+        >
           <img src="/images/lpg.svg" alt="LPG Bottle" />
           <div className={styles.iconLabel}>LPG swap & go</div>
         </div>
-        <div className={`${styles.iconContainer} ${services.food ? "" : styles.disabled}`}>
+        <div
+          className={`${styles.iconContainer} ${
+            services.food ? "" : styles.disabled
+          }`}
+        >
           <img src="/images/foodDrink.svg" alt="Cup with a straw" />
           <div className={styles.iconLabel}>Drinks & food</div>
         </div>
-        <div className={`${styles.iconContainer} ${services.carWash ? "" : styles.disabled}`}>
+        <div
+          className={`${styles.iconContainer} ${
+            services.carWash ? "" : styles.disabled
+          }`}
+        >
           <img src="/images/carwash.svg" alt="Carwash icon" />
           <div className={styles.iconLabel}>Car wash</div>
         </div>
-        <div className={`${styles.iconContainer} ${services.trailerHire ? "" : styles.disabled}`}>
+        <div
+          className={`${styles.iconContainer} ${
+            services.trailerHire ? "" : styles.disabled
+          }`}
+        >
           <img src="/images/trailerHire.svg" alt="Trailer icon" />
           <div className={styles.iconLabel}>Trailer hire</div>
         </div>
@@ -88,14 +134,18 @@ const StationCard = (props) => {
             <img
               src="/images/showMoreToggle.svg"
               alt="Show more options"
-              className={`${styles.toggleIcon} ${showMoreInfo ? styles.rotated : ""}`}
+              className={`${styles.toggleIcon} ${
+                showMoreInfo ? styles.rotated : ""
+              }`}
             />
           </div>
         )}
       </div>
       {/* More Information */}
       {moreInfoItems.length > 0 && (
-        <div className={`${styles.moreInfo} ${showMoreInfo ? styles.visible : ""}`}>
+        <div
+          className={`${styles.moreInfo} ${showMoreInfo ? styles.visible : ""}`}
+        >
           <div className={styles.moreInfoContent}>
             {moreInfoItems.length <= 2 ? (
               // Single column for 1-2 items
@@ -120,9 +170,13 @@ const StationCard = (props) => {
                 </div>
                 <div className={styles.moreInfoRight}>
                   <ul>
-                    {moreInfoItems.slice(Math.ceil(moreInfoItems.length / 2)).map((item, index) => (
-                      <li key={index + Math.ceil(moreInfoItems.length / 2)}>{item}</li>
-                    ))}
+                    {moreInfoItems
+                      .slice(Math.ceil(moreInfoItems.length / 2))
+                      .map((item, index) => (
+                        <li key={index + Math.ceil(moreInfoItems.length / 2)}>
+                          {item}
+                        </li>
+                      ))}
                   </ul>
                 </div>
               </>

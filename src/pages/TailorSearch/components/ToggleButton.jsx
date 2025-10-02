@@ -1,23 +1,21 @@
-import { useState } from "react";
 import styles from "./ToggleButton.module.css";
 import ellipse from "../../../assets/Ellipse.svg";
 
-function ToggleButton() {
-  const [toggled, setToggled] = useState(false);
+function ToggleButton({ toggled, onToggle }) {
   const handleToggle = () => {
-    setToggled((e) => !e);
+    if (onToggle) {
+      onToggle(!toggled);
+    }
   };
 
   return (
     <div className={styles.toggleButtonContainer}>
-      <label>{toggled ? "Show prices" : "Hide prices"}</label>
+      <label>{toggled ? "Hide prices" : "Show prices"}</label>
       <button
-        className={`${styles.buttonStyle} ${
-          toggled ? styles.toggledButton : ""
-        }`}
+        className={`${styles.buttonStyle} ${toggled ? styles.toggledButton : ""}`}
         onClick={handleToggle}
       >
-        <img src={ellipse} />
+        <img src={ellipse} alt="Toggle" />
       </button>
     </div>
   );

@@ -4,7 +4,7 @@ import React from "react";
 
 const GoogleMapsMarkers = (props) => {
   const map = useMap();
-  const { stations, userLocation, selectedStation, onStationSelect } = props;
+  const { stations, userLocation, selectedStation, onStationSelect, showPrices } = props;
   const [allStationData, setAllStationData] = useState([]);
   const [zoom, setZoom] = useState(6);
 
@@ -231,8 +231,8 @@ const GoogleMapsMarkers = (props) => {
     }
   };
 
-  // Determine if we should show price cards based on zoom
-  const shouldShowPrices = zoom >= 11;
+  // Determine if we should show price cards based on zoom AND user toggle
+  const shouldShowPrices = zoom >= 11 && showPrices;
 
   // Calculate dynamic offset based on zoom level
   // At higher zoom, we need smaller lat/lng offsets for same pixel distance

@@ -6,7 +6,7 @@ import GoogleMapsMarkers from "./GoogleMapsMarkers.jsx";
 
 const GoogleMapInner = forwardRef((props, ref) => {
   const map = useMap(); // This hook gets the map instance
-  const { stations, userLocation, selectedStation, onStationSelect } = props;
+  const { stations, userLocation, selectedStation, onStationSelect, showPrices } = props;
   const [directionsRenderer, setDirectionsRenderer] = useState(null);
   const [directionsService, setDirectionsService] = useState(null);
 
@@ -35,12 +35,7 @@ const GoogleMapInner = forwardRef((props, ref) => {
 
   // Handle directions when selected station changes
   useEffect(() => {
-    if (
-      directionsService &&
-      directionsRenderer &&
-      selectedStation &&
-      userLocation
-    ) {
+    if (directionsService && directionsRenderer && selectedStation && userLocation) {
       const origin = userLocation;
       const destination = {
         lat: selectedStation.coordinates?.lat || selectedStation.latitude,
@@ -104,6 +99,7 @@ const GoogleMapInner = forwardRef((props, ref) => {
       userLocation={userLocation}
       selectedStation={selectedStation}
       onStationSelect={onStationSelect}
+      showPrices={showPrices}
     />
   );
 });
@@ -111,7 +107,7 @@ const GoogleMapInner = forwardRef((props, ref) => {
 GoogleMapInner.displayName = "GoogleMapInner";
 
 const GoogleMap = forwardRef((props, ref) => {
-  const { stations, userLocation, selectedStation, onStationSelect } = props;
+  const { stations, userLocation, selectedStation, onStationSelect, showPrices } = props;
 
   // Function to handle custom My Location button click
   const handleMyLocationClick = () => {
@@ -168,6 +164,7 @@ const GoogleMap = forwardRef((props, ref) => {
             userLocation={userLocation}
             selectedStation={selectedStation}
             onStationSelect={onStationSelect}
+            showPrices={showPrices}
           />
         </Map>
       </APIProvider>
