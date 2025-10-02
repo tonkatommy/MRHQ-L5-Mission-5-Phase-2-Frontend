@@ -10,7 +10,7 @@ async function handleSearch(e) {
   console.log(searchLocation);
 
   try {
-    const response = await fetch("http://localhost:3000/find-station", {
+    const response = await fetch("http://localhost:3000/api/find-station", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,0 +1,44 @@
+.container {
+  /* Positioned below the search filters */
+  /* position: absolute;
+  top: 150px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px; */
+  display: inline-flex;
+  height: 764px;
+  padding: 16px 0;
+  flex-direction: column;
+
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.header {
+  color: #353535;
+
+  /* Z-NavLabels */
+  font-family: "Test Calibre";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.header h3 {
+  padding-left: 31px;
+  padding-bottom: 4px;
+}
+
+.stationsList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  direction: rtl;
+}
+
+.stationsList > * {
+  direction: ltr;
+}

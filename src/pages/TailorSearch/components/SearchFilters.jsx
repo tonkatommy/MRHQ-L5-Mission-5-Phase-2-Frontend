@@ -6,7 +6,7 @@ import SearchFiltersStation from "./filters/SearchFiltersStation";
 import styles from "./SearchFilters.module.css";
 import ToggleButton from "./ToggleButton";
 
-function SearchFilters({ onShowToggle }) {
+function SearchFilters({ onShowToggle, onFilterResults }) {
   const [showToggleButton, setShowToggleButton] = useState(false);
 
   // Initial state for the filters
@@ -18,20 +18,36 @@ function SearchFilters({ onShowToggle }) {
   const handleApplyFilters = async () => {
     // Collect data from the filters
     const filterData = {
-      services: selectedServices,
-      fuelType: selectedFuelType,
-      stationType: selectedStationType,
+      services: selectedServices, // Array of selected services
+      fuelType: selectedFuelType, // String of selected fuel type
+      stationType: selectedStationType, // String of selected station type
     };
+
+    console.log("Sending filter data", filterData);
 
     // Send data to backend
     try {
-      const response = await fetch("http://localhost:3000/filter-stations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(filterData),
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/filter-stations",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(filterData),
+        }
+      );
       const data = await response.json();
-      console.log(data);
+
+      if (data.success) {
+        console.log("Filtered stations", data.stations);
+        console.log("Found", data.count, "matching stations");
+
+        // Pass results to the parent component
+        if (onFilterResults) {
+          onFilterResults(data.stations);
+        }
+      } else {
+        console.error("Filter error:", data.error);
+      }
     } catch (error) {
       console.error("Error:", error);
     }
