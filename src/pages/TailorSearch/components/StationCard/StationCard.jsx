@@ -15,10 +15,8 @@ const StationCard = (props) => {
     moreInfoItems = [],
   } = props;
 
-  const logProps = () => {
-    console.log("StationCard props:", props);
-  };
-  logProps();
+  console.log("StationCard moreInfoItems:", moreInfoItems);
+  console.log("StationCard services:", services);
 
   const [showMoreInfo, setShowMoreInfo] = useState(false);
 
@@ -82,18 +80,18 @@ const StationCard = (props) => {
           <img src="/images/trailerHire.svg" alt="Trailer icon" />
           <div className={styles.iconLabel}>Trailer hire</div>
         </div>
-        <div
-          className={`${styles.iconContainer} ${styles.toggleContainer} ${
-            services.showMore ? "" : styles.disabled
-          }`}
-          onClick={toggleMoreInfo}
-        >
-          <img
-            src="/images/showMoreToggle.svg"
-            alt="Show more options"
-            className={`${styles.toggleIcon} ${showMoreInfo ? styles.rotated : ""}`}
-          />
-        </div>
+        {moreInfoItems && moreInfoItems.length > 0 && (
+          <div
+            className={`${styles.iconContainer} ${styles.toggleContainer}`}
+            onClick={toggleMoreInfo}
+          >
+            <img
+              src="/images/showMoreToggle.svg"
+              alt="Show more options"
+              className={`${styles.toggleIcon} ${showMoreInfo ? styles.rotated : ""}`}
+            />
+          </div>
+        )}
       </div>
       {/* More Information */}
       {moreInfoItems.length > 0 && (
