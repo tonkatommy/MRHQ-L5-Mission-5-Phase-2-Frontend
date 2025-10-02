@@ -22,8 +22,8 @@
 .stationResultsWrapper {
   position: absolute;
   /* Below search filter */
-  top: 224px;
-  left: 97px;
+  top: 150px;
+  left: 50px;
   right: 1492px;
   bottom: 16px;
   z-index: 2000;

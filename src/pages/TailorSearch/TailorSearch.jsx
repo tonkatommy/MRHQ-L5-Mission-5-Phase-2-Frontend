@@ -32,7 +32,7 @@ function TailorSearch() {
 
     if (lat && lng && mapRef.current) {
       console.log("Calling centerAndZoom...");
-      mapRef.current.centerAndZoom(lat, lng, 16);
+      mapRef.current.centerAndZoom(lat, lng, 15);
     } else {
       console.log("Missing data - lat:", lat, "lng:", lng, "mapRef:", mapRef.current);
     }
