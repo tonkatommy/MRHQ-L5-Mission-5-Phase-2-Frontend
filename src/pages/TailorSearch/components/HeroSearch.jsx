@@ -26,27 +26,35 @@ function HeroSearch({ onCurrentLocation, onLocationSearch }) {
       // Use Google Geocoding API to convert address to coordinates
       const geocoder = new window.google.maps.Geocoder();
 
-      geocoder.geocode({ address: searchLocation }, (results, status) => {
-        if (status === "OK" && results[0]) {
-          const location = results[0].geometry.location;
-          const coordinates = {
-            lat: location.lat(),
-            lng: location.lng(),
-          };
+      geocoder.geocode(
+        {
+          address: searchLocation,
+          componentRestrictions: {
+            country: "NZ", // Restrict search to New Zealand only
+          },
+        },
+        (results, status) => {
+          if (status === "OK" && results[0]) {
+            const location = results[0].geometry.location;
+            const coordinates = {
+              lat: location.lat(),
+              lng: location.lng(),
+            };
 
-          console.log("Geocoded coordinates:", coordinates);
+            console.log("Geocoded coordinates:", coordinates);
 
-          // Call the location search callback with the coordinates
-          if (onLocationSearch) {
-            onLocationSearch(coordinates, searchLocation);
+            // Call the location search callback with the coordinates
+            if (onLocationSearch) {
+              onLocationSearch(coordinates, searchLocation);
+            }
+          } else {
+            console.error("Geocoding failed:", status);
+            alert(
+              "Could not find the location. Please try a different address or place name."
+            );
           }
-        } else {
-          console.error("Geocoding failed:", status);
-          alert(
-            "Could not find the location. Please try a different address or place name."
-          );
         }
-      });
+      );
 
       // Also send to backend if needed
       const response = await fetch("http://localhost:3000/api/find-station", {
