@@ -1,4 +1,4 @@
-import StationCard from "../../FindStation/components/StationCard";
+import StationCard from "./StationCard/StationCard";
 import styles from "./StationResults.module.css";
 
 function StationResults({ stations, isVisible, onStationClick }) {
@@ -14,25 +14,24 @@ function StationResults({ stations, isVisible, onStationClick }) {
       openHours: station.openHours || "Open 24 Hours",
       fuelPrices: {
         diesel:
-          station.selectedFuelPrice?.find((fuel) => fuel.type === "Z Diesel")
-            ?.price || station.fuelPrices?.ZDiesel,
+          station.selectedFuelPrice?.find((fuel) => fuel.type === "Z Diesel")?.price ||
+          station.fuelPrices?.ZDiesel,
         unleaded:
-          station.selectedFuelPrice?.find(
-            (fuel) => fuel.type === "Z91 Unleaded"
-          )?.price || station.fuelPrices?.Z91,
+          station.selectedFuelPrice?.find((fuel) => fuel.type === "Z91 Unleaded")?.price ||
+          station.fuelPrices?.Z91,
         premium:
-          station.selectedFuelPrice?.find((fuel) => fuel.type === "ZX Premium")
-            ?.price || station.fuelPrices?.ZPremium,
+          station.selectedFuelPrice?.find((fuel) => fuel.type === "ZX Premium")?.price ||
+          station.fuelPrices?.ZPremium,
       },
       fuelTypes: {
         diesel: "D",
         unleaded: "91",
         premium: "96",
       },
+      selectedFuelPrice: station.selectedFuelPrice || [],
       services: {
         lpg: station.services?.includes("LPG SWAP'n'GO") || false,
-        food:
-          station.services?.includes("Z Espress Coffee & Fresh Food") || false,
+        food: station.services?.includes("Z Espress Coffee & Fresh Food") || false,
         carWash: station.services?.includes("Z2O carwash") || false,
         trailerHire: station.services?.includes("Trailer hire") || false,
       },
