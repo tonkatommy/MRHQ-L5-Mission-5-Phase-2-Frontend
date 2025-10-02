@@ -2,11 +2,20 @@ import { useState, useRef, useEffect } from "react";
 import styles from "./SearchFiltersServices.module.css";
 import downArrow from "../../../../assets/chevron-down.svg";
 
-function SearchFiltersServices({ onSelectionChange }) {
+function SearchFiltersServices({ onSelectionChange, resetTrigger }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [expanded, setExpanded] = useState(null); // Track which parent item is expanded
   const dropdownRef = useRef(null);
+
+  // Reset component state when resetTrigger changes
+  useEffect(() => {
+    if (resetTrigger > 0) {
+      setSelectedOptions([]);
+      setIsOpen(false);
+      setExpanded(null);
+    }
+  }, [resetTrigger]);
 
   useEffect(() => {
     onSelectionChange?.(selectedOptions);
