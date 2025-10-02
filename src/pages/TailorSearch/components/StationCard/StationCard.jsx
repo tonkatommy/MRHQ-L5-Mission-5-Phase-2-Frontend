@@ -9,10 +9,16 @@ const StationCard = (props) => {
     stationAddress,
     openHours,
     fuelPrices,
+    selectedFuelPrice,
     fuelTypes,
     services,
     moreInfoItems = [],
   } = props;
+
+  const logProps = () => {
+    console.log("StationCard props:", props);
+  };
+  logProps();
 
   const [showMoreInfo, setShowMoreInfo] = useState(false);
 
@@ -34,9 +40,17 @@ const StationCard = (props) => {
         </div>
         {/* Fuel Indicators */}
         <div className={styles.fuelIndicators}>
-          <PriceCard fuelType={fuelTypes.diesel} fuelPrice={fuelPrices.diesel} />
-          <PriceCard fuelType={fuelTypes.unleaded} fuelPrice={fuelPrices.unleaded} />
-          <PriceCard fuelType={fuelTypes.premium} fuelPrice={fuelPrices.premium} />
+          {selectedFuelPrice && selectedFuelPrice.length > 0 ? (
+            selectedFuelPrice.map((fuel, index) => (
+              <PriceCard key={index} fuelType={fuel.type} fuelPrice={fuel.price} />
+            ))
+          ) : (
+            <>
+              <PriceCard fuelType={fuelTypes.diesel} fuelPrice={fuelPrices.diesel} />
+              <PriceCard fuelType={fuelTypes.unleaded} fuelPrice={fuelPrices.unleaded} />
+              <PriceCard fuelType={fuelTypes.premium} fuelPrice={fuelPrices.premium} />
+            </>
+          )}
         </div>
       </div>
       {/* Services Icons */}
