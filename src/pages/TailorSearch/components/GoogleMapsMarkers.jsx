@@ -3,10 +3,11 @@ import { AdvancedMarker, Pin, useMap } from "@vis.gl/react-google-maps";
 
 const GoogleMapsMarkers = (props) => {
   const map = useMap();
-  const [stationData, setStationData] = useState([]);
+  const { stations } = props;
+  const [allStationData, setAllStationData] = useState([]);
   const [zoom, setZoom] = useState(6);
 
-  // Fetch station data from backend
+  // Fetch all station data from backend (for initial display)
   useEffect(() => {
     const fetchStationData = async () => {
       try {
@@ -15,8 +16,8 @@ const GoogleMapsMarkers = (props) => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log("Fetched station data:", data);
-        setStationData(data);
+        console.log("Fetched all station data:", data);
+        setAllStationData(data);
       } catch (error) {
         console.error("Error fetching station data:", error);
       }
@@ -24,6 +25,18 @@ const GoogleMapsMarkers = (props) => {
 
     fetchStationData();
   }, []);
+
+  // Determine which stations to display
+  const stationData = useMemo(() => {
+    // If filtered stations are provided and not empty, use them
+    if (stations && stations.length > 0) {
+      console.log("Using filtered stations:", stations);
+      return stations;
+    }
+    // Otherwise, show all stations
+    console.log("Using all stations:", allStationData);
+    return allStationData;
+  }, [stations, allStationData]);
 
   // Listen to zoom changes
   useEffect(() => {
