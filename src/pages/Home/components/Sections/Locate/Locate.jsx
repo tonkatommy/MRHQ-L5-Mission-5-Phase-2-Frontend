@@ -6,7 +6,7 @@ const Locate = () => {
   const navigate = useNavigate();
 
   const handleFindStation = () => {
-    navigate("/find-station");
+    navigate("/tailor-search");
   };
 
   return (
@@ -31,13 +31,22 @@ const Locate = () => {
             </g>
             <defs>
               <clipPath id="clip0_1656_990">
-                <rect width="13.0034" height="17" fill="white" transform="translate(11.4983 9)" />
+                <rect
+                  width="13.0034"
+                  height="17"
+                  fill="white"
+                  transform="translate(11.4983 9)"
+                />
               </clipPath>
             </defs>
           </svg>
         </button>
       </div>
-      <img src="/images/mapOverlay.png" className={styles.image} alt="Map Overlay" />
+      <img
+        src="/images/mapOverlay.png"
+        className={styles.image}
+        alt="Map Overlay"
+      />
     </div>
   );
 };
