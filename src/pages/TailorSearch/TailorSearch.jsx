@@ -173,7 +173,7 @@ function TailorSearch() {
           />
 
           {/* Reset Button */}
-          {(showResults || userLocation || selectedStation) && (
+          {showResults && (
             <div
               style={{
                 position: "absolute",
