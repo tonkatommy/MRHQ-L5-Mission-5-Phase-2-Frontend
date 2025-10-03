@@ -40,7 +40,10 @@ function Header() {
           Rewards and promotions <img src={downArrow}></img>
         </p>
 
-        <Link to="/find-station" className={location.pathname === '/find-station' ? styles.active : ''}>
+        <Link
+          to="/tailor-search"
+          className={location.pathname === "/find-station" ? styles.active : ""}
+        >
           <p>Locations</p>
         </Link>
       </div>
