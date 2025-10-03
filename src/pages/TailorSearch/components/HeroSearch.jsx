@@ -56,19 +56,7 @@ function HeroSearch({ onCurrentLocation, onLocationSearch }) {
         }
       );
 
-      // Also send to backend if needed
-      const response = await fetch("http://localhost:3000/api/find-station", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          location: searchLocation,
-        }),
-      });
 
-      const data = await response.json();
-      console.log("Backend response:", data);
     } catch (error) {
       console.error("Error:", error);
       alert("An error occurred while searching for the location.");
