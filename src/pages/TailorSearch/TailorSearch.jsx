@@ -23,7 +23,7 @@ function TailorSearch() {
     setShowResults(true);
   }
 
-  // Add this function
+  // Function to select the station on click
   const handleStationClick = (station) => {
     console.log("Station clicked!", station);
 
@@ -177,7 +177,7 @@ function TailorSearch() {
             <div
               style={{
                 position: "absolute",
-                top: "95px", // Below the filters
+                top: "95px",
                 right: "137.5px",
                 zIndex: 3000,
               }}
