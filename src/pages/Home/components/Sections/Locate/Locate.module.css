@@ -54,3 +54,7 @@
   font-family: "Test Calibre Bold";
   font-size: 20px;
 }
+
+.button:hover {
+  cursor: pointer;
+}

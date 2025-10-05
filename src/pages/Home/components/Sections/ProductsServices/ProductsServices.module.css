@@ -65,6 +65,14 @@
   background: var(--Z-primary-orange, #f26522);
 }
 
+.button:hover {
+  cursor: pointer;
+  background: var(
+    --Z-gradient-duck-indigo,
+    linear-gradient(90deg, #1e196a 21.15%, #3129ac 96.79%)
+  );
+}
+
 .contentRight {
   display: flex;
   width: 430px !important;
